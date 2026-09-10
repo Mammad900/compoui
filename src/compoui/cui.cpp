@@ -1,11 +1,11 @@
 #include "cui.hpp"
 #include "glad/glad.h"
-#include "util/shader.hpp"
-
+#include "hitbox.hpp"
 #include <glm/fwd.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <memory>
+#include <optional>
 
 const char *fragmentSource = R"(
     #version 460 core
@@ -52,4 +52,110 @@ void CUI::Context::resize(uint w, uint h) {
 
 void CUI::Context::draw() {
     root->draw(shared_from_this(), {{0,0}, windowSize});
+}
+
+void CUI::Context::mouseEvent(MouseEvent event) {
+    switch (event.type) {
+        case MouseEvent::Type::move: {
+            if(!event.position) return;
+
+            mousePosition = event.position;
+            break;
+        };
+
+        case MouseEvent::Type::down: {
+            if(!event.button) return;
+
+            switch (event.button.value()) {
+                case MouseEvent::Button::left:
+                    mouseButtons.left = true;
+                    break;
+                case MouseEvent::Button::right:
+                    mouseButtons.right = true;
+                    break;
+                case MouseEvent::Button::middle:
+                    mouseButtons.middle = true;
+                    break;
+                case MouseEvent::Button::extra1:
+                    mouseButtons.extra1 = true;
+                    break;
+                case MouseEvent::Button::extra2:
+                    mouseButtons.extra2 = true;
+                    break;
+            }
+            
+            if(event.position)
+                mousePosition = event.position;
+
+            break;
+        }
+
+        case MouseEvent::Type::up: {
+            if(!event.button) return;
+
+            switch (event.button.value()) {
+                case MouseEvent::Button::left:
+                    mouseButtons.left = false;
+                    break;
+                case MouseEvent::Button::right:
+                    mouseButtons.right = false;
+                    break;
+                case MouseEvent::Button::middle:
+                    mouseButtons.middle = false;
+                    break;
+                case MouseEvent::Button::extra1:
+                    mouseButtons.extra1 = false;
+                    break;
+                case MouseEvent::Button::extra2:
+                    mouseButtons.extra2 = false;
+                    break;
+            }
+
+            event.buttons = mouseButtons;
+            if(event.position)
+                mousePosition = event.position;
+
+            break;
+        }
+
+        case MouseEvent::Type::leave: {
+            mousePosition = std::nullopt;
+            event.type = MouseEvent::Type::move;
+            break;
+        }
+
+        case MouseEvent::Type::hover:
+            break;
+        
+        default:
+            return;
+    }
+
+    event.buttons = mouseButtons;
+    event.position = mousePosition;
+
+    std::shared_ptr<Context> shared = shared_from_this();
+    for (unsigned i = hitBoxes.size(); i-- > 0; ) {
+        auto &hitBox = hitBoxes[i];
+        if(hitBox->processEvent(shared, event)) return;
+    }
+}
+
+void CUI::Context::postEvents() {
+    mouseEvent(MouseEvent{
+        .type= MouseEvent::hover,
+        .buttons= mouseButtons,
+        .position= mousePosition,
+    });
+
+    std::shared_ptr<Context> shared = shared_from_this();
+    for (auto &hitBox : hitBoxes)
+        hitBox->postEvents(shared);
+
+    for (auto &event : pendingEvents) {
+        event.hitBox->onEvent(event);
+    }
+
+    hitBoxes.clear();
+    pendingEvents.clear();
 }

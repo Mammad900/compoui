@@ -18,5 +18,13 @@ namespace CUI {
         Vec2 center() {
             return pos + size * 0.5f;
         }
+
+        bool contains(Vec2 point) {
+            Vec2 m = max();
+            return  point.x >= pos.x &&
+                    point.x < m.x &&
+                    point.y >= pos.y &&
+                    point.y < m.y;
+        }
     };
 }
