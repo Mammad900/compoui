@@ -73,6 +73,12 @@ CUI::Primitive::Text::Text(std::shared_ptr<Font> font, std::string text, Color c
     updateGeometry();      // build initial geometry
 }
 
+CUI::Primitive::Text::~Text() {
+    if (vao) glDeleteVertexArrays(1, &vao);
+    if (vbo) glDeleteBuffers(1, &vbo);
+    if (ebo) glDeleteBuffers(1, &ebo);
+}
+
 void CUI::Primitive::Text::draw(ContextPtr ctx, Rect rect) {
     glUseProgram(program);
 

@@ -16,6 +16,7 @@ namespace CUI::Primitive {
         static int program;
 
         Text(std::shared_ptr<Font> font, std::string text, Color color);
+        ~Text();
         
         void draw(ContextPtr ctx, Rect rect) override;
 
