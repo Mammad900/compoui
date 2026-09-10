@@ -9,55 +9,70 @@ namespace CUI::Layout {
       public:
         std::vector<std::shared_ptr<Element>> children;
         float gap;
+        enum Orientation {vertical, horizontal};
+        Orientation orientation;
 
-        List(std::vector<std::shared_ptr<Element>> children, float gap = 0) 
-            : children(children), gap(gap) {}
+        List(std::vector<std::shared_ptr<Element>> children, float gap = 0, Orientation orientation = vertical) 
+            : children(children), gap(gap), orientation(orientation) {}
 
         Vec2 naturalSize(Vec2 max) override {
-            float h = 0, w = 0;
-            for (auto &child : children) {
-                Vec2 size = child->naturalSize({max.x, 0});
-                h += size.y + gap;
-                w = std::max(w, size.x);
+            if(orientation == vertical) { 
+                float h = 0, w = 0;
+                for (auto &child : children) {
+                    Vec2 size = child->naturalSize({max.x, 0});
+                    h += size.y + gap;
+                    w = std::max(w, size.x);
+                }
+                return {w, h - gap}; // because there's n-1 gaps
+            } else {
+                float h = 0, w = 0;
+                for (auto &child : children) {
+                    Vec2 size = child->naturalSize({0, max.y});
+                    w += size.x + gap;
+                    h = std::max(h, size.y);
+                }
+                return {w - gap, h}; // n-1 gaps
             }
-            
-            return {max.x == 0 ? w : max.x, h - gap}; // because there's n-1 gaps
         }
 
         void draw(ContextPtr ctx, Rect rect) override {
             Element::draw(ctx, rect);
 
-            // if(isDebugTarget())
-            //     ctx->drawRect(rect, DebugColors::padding);
-
-            float y = 0;
-            for (auto &child : children) {
-                float height = child->naturalSize({0, rect.size.x}).y;
-                Rect childRect{
-                    Vec2{0, y} + rect.pos, 
-                    {rect.size.x, height}
-                };
-                child->draw(ctx, childRect);
-                y += height + gap;
-
-                // if(isDebugTarget())
-                //     ctx->drawRect(childRect, DebugColors::rect);
+            if(orientation == vertical) {
+                float y = 0;
+                for (auto &child : children) {
+                    float height = child->naturalSize({0, rect.size.x}).y;
+                    Rect childRect{
+                        Vec2{0, y} + rect.pos, 
+                        {rect.size.x, height}
+                    };
+                    child->draw(ctx, childRect);
+                    y += height + gap;
+                }
+            } else {
+                float x = 0;
+                for (auto &child : children) {
+                    float width = child->naturalSize({rect.size.y, 0}).x;
+                    Rect childRect{
+                        Vec2{ x, 0 } + rect.pos,
+                        {width, rect.size.y}
+                    };
+                    child->draw(ctx, childRect);
+                    x += width + gap;
+                }
             }
         }
-        
-        // DebugInfo getDebugInfo() override {
-        //     return {
-        //         .name= "Layout.List",
-        //         .summary= std::format("{} children", children.size()),
-        //         .children= mapVector<std::shared_ptr<Element>, std::pair<std::shared_ptr<Element>, std::string>>(children, [](std::shared_ptr<Element> &child, size_t) {
-        //             return std::make_pair(child, std::string(""));
-        //         })
-        //     };
-        // }
     };
 }
 
 namespace CUI::Factories {
+    using ListOrientation = Layout::List::Orientation;
+    inline std::shared_ptr<Layout::List> List(float gap, ListOrientation orientation, std::vector<std::shared_ptr<Element>> children) {
+        return std::make_shared<Layout::List>(children, gap, orientation);
+    }
+    inline std::shared_ptr<Layout::List> List(ListOrientation orientation, std::vector<std::shared_ptr<Element>> children) {
+        return std::make_shared<Layout::List>(children, 0, orientation);
+    }
     inline std::shared_ptr<Layout::List> List(float gap, std::vector<std::shared_ptr<Element>> children) {
         return std::make_shared<Layout::List>(children, gap);
     }

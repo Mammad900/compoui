@@ -4,10 +4,12 @@ lib_compoui = static_library(
     'glad/glad.c',
     'cui.cpp',
     'hitbox.cpp',
+    'texture.cpp',
     'util/shader.cpp',
     'font/font.cpp',
     'elements/primitive/primitive.cpp',
     'elements/primitive/fill.cpp',
+    'elements/primitive/image.cpp',
     'elements/primitive/text.cpp',
   ],
   dependencies: [
