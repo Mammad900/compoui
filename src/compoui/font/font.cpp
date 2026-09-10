@@ -291,7 +291,7 @@ CUI::Font::Font(std::filesystem::path path, unsigned int size) : size(size) {
     }
 
     lineHeight = static_cast<float>(face->size->metrics.height)   / 64.0f;
-    ascender   = static_cast<float>(face->size->metrics.ascender)/ 64.0f;
+    ascender   = static_cast<float>(face->size->metrics.ascender) / 64.0f;
     descender  = static_cast<float>(face->size->metrics.descender)/ 64.0f;
 
     try {
