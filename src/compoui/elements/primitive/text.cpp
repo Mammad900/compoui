@@ -65,6 +65,11 @@ CUI::Primitive::Text::Text(std::shared_ptr<Font> font, std::string text, Color c
 
     glBindVertexArray(0);   // unbind VAO
 
+    glUseProgram(program);
+    rectLoc = glGetUniformLocation(program, "rect");
+    vpSizeLoc = glGetUniformLocation(program, "viewportSize");
+    textColorLoc = glGetUniformLocation(program, "textColor");
+
     updateGeometry();      // build initial geometry
 }
 
@@ -72,16 +77,9 @@ void CUI::Primitive::Text::draw(ContextPtr ctx, Rect rect) {
     glUseProgram(program);
 
     // Uniforms
-    GLint uRectLoc = glGetUniformLocation(program, "rect");
-    glUniform4fv(uRectLoc, 1, &rect.pos.x);
-
-    GLint uTexSizeLoc = glGetUniformLocation(program, "viewportSize");
-    if (uTexSizeLoc != -1)
-        glUniform2fv(uTexSizeLoc, 1, &ctx->windowSize.x);
-
-    GLint uColorLoc = glGetUniformLocation(program, "textColor");
-    if (uColorLoc != -1)
-        glUniform4fv(uColorLoc, 1, &color.r);
+    glUniform4fv(rectLoc, 1, &rect.pos.x);
+    glUniform2fv(vpSizeLoc, 1, &ctx->windowSize.x);
+    glUniform4fv(textColorLoc, 1, &color.r);
 
     /* Bind font atlas texture */
     glActiveTexture(GL_TEXTURE0);

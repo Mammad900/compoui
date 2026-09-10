@@ -25,6 +25,7 @@ namespace CUI::Primitive {
 
     private:
         unsigned int vao, vbo, ebo, indexCount = 0;
+        int rectLoc, vpSizeLoc, textColorLoc;
         Vec2 totalSize;
         void updateGeometry();
     };
