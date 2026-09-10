@@ -7,13 +7,17 @@
 #include <string>
 
 namespace CUI::Primitive {
+    // Renders single line text.
+    // Natural size is the text bounds.
+    // Does not fill its rect unless at natural size. Anchors to top left.
     class Text : public Element {
     public:
+        // The font face
         std::shared_ptr<Font> font;
+        // Text to render
         std::string text;
+        // Text color
         Color color;
-        static const char *vertSource, *fragSource;
-        static int program;
 
         Text(std::shared_ptr<Font> font, std::string text, Color color);
         ~Text();
@@ -25,6 +29,8 @@ namespace CUI::Primitive {
         }
 
     private:
+        static int program;
+        static const char *vertSource, *fragSource;
         unsigned int vao, vbo, ebo, indexCount = 0;
         int rectLoc, vpSizeLoc, textColorLoc;
         Vec2 totalSize;

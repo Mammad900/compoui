@@ -5,6 +5,7 @@
 #include <vector>
 
 namespace CUI::Layout {
+    // Positions elements in a straight vertical/horizontal line
     class List : public Element {
       public:
         std::vector<std::shared_ptr<Element>> children;

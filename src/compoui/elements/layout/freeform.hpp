@@ -5,6 +5,8 @@
 #include <vector>
 
 namespace CUI::Layout {
+    // Positions elements anywhere you want relative to itself.
+    // Does not have natural size.
     class Freeform : public Element {
       public:
         struct Child {
@@ -15,6 +17,7 @@ namespace CUI::Layout {
         Freeform(std::vector<Child> children) : children(children) {}
         
         std::vector<Child> children;
+
         void draw(ContextPtr ctx, Rect rect) override {
             Element::draw(ctx, rect);
 

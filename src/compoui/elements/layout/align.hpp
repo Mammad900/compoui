@@ -4,19 +4,20 @@
 #include <memory>
 
 namespace CUI::Layout {
+    // Positions an element at the start/center/end of itself, at its natural size.
+    // Its natural size is the same as its child's.
     class Align : public Element {
       public:
-        enum class Mode { start, center, end, fill };
-        // static std::string modeToString(Mode mode) {
-        //     switch (mode) {
-        //         case start: return "start";
-        //         case center: return "center";
-        //         case end: return "end";
-        //         case fill: return "fill";
-        //         default: return "unknown";
-        //     }
-        // }
-
+        enum class Mode {
+            // Child is anchored to left/top, and natural size.
+            start, 
+            // Child is centered, with equal empty space on the sides, and natural size.
+            center, 
+            // Child is anchored to right/bottom, and natural size.
+            end,
+            // Child fills the parent on this axis, so not natural size.
+            fill
+        };
         std::shared_ptr<Element> child;
         Mode horizontal, vertical;
 
@@ -68,20 +69,7 @@ namespace CUI::Layout {
             childRect.pos += rect.pos;
 
             child->draw(ctx, childRect);
-
-            // if(isDebugTarget()) {
-            //     ctx->drawRect(rect, DebugColors::padding);
-            //     ctx->drawRect(childRect, DebugColors::rect);
-            // }
         }
-
-        // DebugInfo getDebugInfo() override {
-        //     return {
-        //         .name= "Layout.Align",
-        //         .summary= std::format("Horizontal={}, Vertical={}", modeToString(horizontal), modeToString(vertical)),
-        //         .children= {{child, ""}}
-        //     };
-        // }
     };
 }
 

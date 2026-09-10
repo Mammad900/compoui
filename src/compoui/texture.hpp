@@ -4,23 +4,24 @@
 
 namespace CUI {
 
+// Represents a texture for use in the Image element
 class Texture {
 public:
     // OpenGL texture handle
     unsigned int id;
 
-    // True if the texture contains only a single channel (e.g. luminance)
+    // True if the texture contains only a single channel (alpha)
     bool monochrome;
 
     // Size of the texture in pixels
     Vec2 size;
 
     /**
-     * @brief Construct an OpenGL texture from raw data.
+     * @brief Construct a texture from raw data.
      *
      * @param sz   The width and height of the texture.
      * @param buf  Pointer to the pixel buffer.  
-     *             For monochrome textures, the buffer should contain one byte per pixel;  
+     *             For monochrome textures, the buffer should contain one byte (A) per pixel;  
      *             for color textures it should be four bytes (RGBA) per pixel.
      * @param mono True if `buf` is single‑channel data, otherwise false.
      */

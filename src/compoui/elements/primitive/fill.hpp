@@ -6,6 +6,8 @@
 #include <memory>
 
 namespace CUI::Primitive {
+    // Fills the rect with a solid color.
+    // Natural is zero (can be overriden)
     class Fill : public Primitive {
         static unsigned int program;
         static const char* fragmentSource;
@@ -20,7 +22,9 @@ namespace CUI::Primitive {
 
         void setDerivedUniforms(ContextPtr, CUI::Rect) override;
     
+        // Color to fill
         Color background;
+        // Natural size, defaults to 0
         Vec2 size;
     };
 }

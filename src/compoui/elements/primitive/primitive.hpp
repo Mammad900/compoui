@@ -3,6 +3,7 @@
 #include "../../cui.hpp"
 
 namespace CUI::Primitive {
+    // The base class providing most functionality needed to draw quad based elements
     class Primitive : public Element {
     public:
         Primitive(unsigned int &program, const char *fragmentSource);

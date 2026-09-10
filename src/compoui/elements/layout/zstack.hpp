@@ -5,9 +5,12 @@
 #include <vector>
 
 namespace CUI::Layout {
+    // Positions children in the same rect, on top of each other.
+    // Natural size is that of one of the children, which must be specified.
     class ZStack : public Element {
       public:
         std::vector<std::shared_ptr<Element>> children;
+        // The index of the child that determines natural size
         uint layoutChild;
 
         ZStack(std::vector<std::shared_ptr<Element>> children, uint layoutChild) 
@@ -22,23 +25,7 @@ namespace CUI::Layout {
 
             for (auto &&child : children)
                 child->draw(ctx, rect);
-
-            // if(isDebugTarget())
-            //     ctx->drawRect(rect, DebugColors::rect);
         }
-
-        // DebugInfo getDebugInfo() override {
-        //     return {
-        //         .name= "Layout.ZStack",
-        //         .summary= std::format("{} children", children.size()),
-        //         .children= mapVector<std::shared_ptr<Element>, std::pair<std::shared_ptr<Element>, std::string>>(children, [this](std::shared_ptr<Element> &child, size_t i) {
-        //             return std::make_pair(
-        //                 child,
-        //                 i == layoutChild ? "Layout child" : ""
-        //             );
-        //         })
-        //     };
-        // }
     };
 }
 

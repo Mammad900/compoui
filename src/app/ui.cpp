@@ -42,8 +42,10 @@ std::shared_ptr<Element> makeUI() {
                 fill = Fill(Color(1, 1, 1, 0.1)),
                 Padding(10, (
                     List(10, ListOrientation::horizontal, {
-                        Image(tex, Vec2{20, 20}),
-                        Text("Exit", font, Color::white),
+                        Align(AlignMode::center, (
+                            Image(tex, Vec2{20, 20})
+                        )),
+                        Text("Exit", font, Color::white)
                     })
                 )),
                 HitBox([fill](MouseEvent ev){

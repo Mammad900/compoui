@@ -7,6 +7,9 @@
 #include <memory>
 
 namespace CUI::Primitive {
+    // Renders a Texture.
+    // Natural size is its pixel resolution (can be overriden).
+    // Fills the quad and stretches.
     class Image : public Primitive {
         static unsigned int program;
         static const char* fragmentSource;
@@ -19,8 +22,11 @@ namespace CUI::Primitive {
 
         void setDerivedUniforms(ContextPtr, CUI::Rect) override;
 
+        // The texture to draw
         std::shared_ptr<Texture> texture;;
+        // Natural size
         Vec2 size;
+        // Multiply image colors by this color
         Color color;
     };
 }

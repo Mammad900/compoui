@@ -4,9 +4,12 @@
 #include <memory>
 
 namespace CUI::Layout {
+    // Positions the child's edges slightly offset inwards relative to its own.
+    // Natural size the child's natural size plus twice the padding.
     class Padding : public Element {
       public:
         std::shared_ptr<Element> child;
+        // The amount of padding at the start and end on each axis
         Vec2 padding;
 
         Padding(std::shared_ptr<Element> child, Vec2 padding)
@@ -25,20 +28,7 @@ namespace CUI::Layout {
             Rect childRect {rect.pos + padding, rect.size - padding*2.f};
 
             child->draw(ctx, childRect);
-
-            // if(isDebugTarget()) {
-            //     ctx->drawRect(rect, DebugColors::padding);
-            //     ctx->drawRect(childRect, DebugColors::rect);
-            // }
         }
-        
-        // DebugInfo getDebugInfo() override {
-        //     return {
-        //         .name= "Layout.Padding",
-        //         .summary= std::format("Horizontal={}, Vertical={}", padding.x, padding.y),
-        //         .children= {{child, ""}}
-        //     };
-        // }
     };
 }
 
