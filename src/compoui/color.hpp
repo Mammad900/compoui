@@ -70,12 +70,12 @@ namespace CUI {
     };
 
     inline constexpr Color Color::black(0, 0, 0);
-    inline constexpr Color Color::white(255, 255, 255);
-    inline constexpr Color Color::red(255, 0, 0);
-    inline constexpr Color Color::green(0, 255, 0);
-    inline constexpr Color Color::blue(0, 0, 255);
-    inline constexpr Color Color::yellow(255, 255, 0);
-    inline constexpr Color Color::magenta(255, 0, 255);
-    inline constexpr Color Color::cyan(0, 255, 255);
+    inline constexpr Color Color::white(1, 1, 1);
+    inline constexpr Color Color::red(1, 0, 0);
+    inline constexpr Color Color::green(0, 1, 0);
+    inline constexpr Color Color::blue(0, 0, 1);
+    inline constexpr Color Color::yellow(1, 1, 0);
+    inline constexpr Color Color::magenta(1, 0, 1);
+    inline constexpr Color Color::cyan(0, 1, 1);
     inline constexpr Color Color::transparent(0, 0, 0, 0);
 }
