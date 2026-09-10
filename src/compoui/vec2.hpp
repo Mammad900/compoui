@@ -9,6 +9,8 @@ namespace CUI {
 
         Vec2(float x, float y) : x(x), y(y) {}
 
+        Vec2(glm::ivec2 vec) : x(vec.x), y(vec.y) {}
+
         float area() {
             return x*y;
         }

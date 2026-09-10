@@ -4,9 +4,15 @@ lib_compoui = static_library(
     'glad/glad.c',
     'cui.cpp',
     'util/shader.cpp',
+    'font/font.cpp',
     'elements/primitive/primitive.cpp',
     'elements/primitive/fill.cpp',
+    'elements/primitive/text.cpp',
   ],
-  dependencies: [dependency('gl'), dependency('glu')],
+  dependencies: [
+    dependency('gl'), 
+    dependency('glu'),
+    dependency('freetype2'),
+  ],
   link_args: ['-lglad', '-ldl']
 )

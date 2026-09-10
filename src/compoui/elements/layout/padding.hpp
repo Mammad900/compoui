@@ -46,4 +46,7 @@ namespace CUI::Factories {
     inline std::shared_ptr<Layout::Padding> Padding(Vec2 padding, std::shared_ptr<Element> child) {
         return std::make_shared<Layout::Padding>(child, padding);
     }
+    inline std::shared_ptr<Layout::Padding> Padding(float padding, std::shared_ptr<Element> child) {
+        return std::make_shared<Layout::Padding>(child, Vec2{padding, padding});
+    }
 }
