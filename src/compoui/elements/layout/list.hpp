@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../cui.hpp"
+#include <cmath>
 #include <memory>
 #include <vector>
 
@@ -20,7 +21,7 @@ namespace CUI::Layout {
             if(orientation == vertical) { 
                 float h = 0, w = 0;
                 for (auto &child : children) {
-                    Vec2 size = child->naturalSize({max.x, 0});
+                    Vec2 size = child->naturalSize({max.x, INFINITY});
                     h += size.y + gap;
                     w = std::max(w, size.x);
                 }
@@ -28,7 +29,7 @@ namespace CUI::Layout {
             } else {
                 float h = 0, w = 0;
                 for (auto &child : children) {
-                    Vec2 size = child->naturalSize({0, max.y});
+                    Vec2 size = child->naturalSize({INFINITY, max.y});
                     w += size.x + gap;
                     h = std::max(h, size.y);
                 }
@@ -42,7 +43,7 @@ namespace CUI::Layout {
             if(orientation == vertical) {
                 float y = 0;
                 for (auto &child : children) {
-                    float height = child->naturalSize({0, rect.size.x}).y;
+                    float height = child->naturalSize({INFINITY, rect.size.x}).y;
                     Rect childRect{
                         Vec2{0, y} + rect.pos, 
                         {rect.size.x, height}
@@ -53,7 +54,7 @@ namespace CUI::Layout {
             } else {
                 float x = 0;
                 for (auto &child : children) {
-                    float width = child->naturalSize({rect.size.y, 0}).x;
+                    float width = child->naturalSize({rect.size.y, INFINITY}).x;
                     Rect childRect{
                         Vec2{ x, 0 } + rect.pos,
                         {width, rect.size.y}
