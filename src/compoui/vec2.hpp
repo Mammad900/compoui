@@ -33,6 +33,14 @@ namespace CUI {
             return Vec2(x * s, y * s);
         }
 
+        Vec2 operator*(const Vec2 &b) const {
+            return Vec2(x * b.x, y * b.y);
+        }
+
+        Vec2 operator/(const Vec2 &b) const {
+            return Vec2(x / b.x, y / b.y);
+        }
+
         // Dot product
         float dot(const Vec2& b) const {
             return x * b.x + y * b.y;
