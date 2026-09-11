@@ -6,6 +6,7 @@
 #include "mouse-event.hpp"
 #include <vector>
 #include <optional>
+#include <chrono>
 
 namespace CUI {
     class Element;
@@ -44,10 +45,13 @@ namespace CUI {
         // Call this after all mouse event for this frame are sent.
         void postEvents();
 
+        // Time between this frame and the last, in seconds
+        float deltaTime;
     private:
         std::vector<std::shared_ptr<HitBoxEl>> hitBoxes;
         std::vector<MouseEvent> pendingEvents;
         friend class HitBoxEl;
+        std::chrono::steady_clock::time_point lastFrame;
     };
 
     typedef const std::shared_ptr<Context>& ContextPtr;

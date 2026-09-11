@@ -22,7 +22,8 @@ const char *fragmentSource = R"(
     }
 )";
 
-CUI::Context::Context(uint w, uint h, std::shared_ptr<Element> root): windowSize(w, h), root(root) {
+CUI::Context::Context(uint w, uint h, std::shared_ptr<Element> root) 
+    : windowSize(w, h), root(root), lastFrame(std::chrono::steady_clock::now()) {
 
     // A unit quad. x/y/w/h are applied through the model matrix.
     constexpr float vertices[] = {0.0f, 0.0f, 1.0f, 0.0f,
@@ -50,7 +51,12 @@ void CUI::Context::resize(uint w, uint h) {
     glViewport(0, 0, static_cast<GLsizei>(w), static_cast<GLsizei>(h));
 }
 
-void CUI::Context::draw() {
+void CUI::Context::draw() {    
+    auto now = std::chrono::steady_clock::now();
+    std::chrono::duration<float> elapsed = now - lastFrame;
+    deltaTime = elapsed.count();
+    lastFrame = now;
+
     root->draw(shared_from_this(), {{0,0}, windowSize});
 }
 
