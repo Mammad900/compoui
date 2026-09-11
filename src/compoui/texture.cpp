@@ -1,4 +1,5 @@
 #include "texture.hpp"
+#include "color.hpp"
 #include <glad/glad.h>          // or your GL loader header
 
 CUI::Texture::Texture(const Vec2& sz, const uint8_t* buf, bool mono)
@@ -20,8 +21,15 @@ CUI::Texture::Texture(const Vec2& sz, const uint8_t* buf, bool mono)
                     buf);
 
     // Basic texture parameters – adjust as needed
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glGenerateMipmap(GL_TEXTURE_2D);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, &Color::transparent.r);
+    
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
