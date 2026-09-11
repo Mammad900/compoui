@@ -1,5 +1,6 @@
 #include "image.hpp"
 #include "util/shader.hpp"
+#include <algorithm>
 #include <memory>
 
 unsigned int CUI::Primitive::Image::program = 0;
@@ -42,5 +43,9 @@ void CUI::Primitive::Image::setDerivedUniforms(ContextPtr, CUI::Rect rect) {
 }
 
 CUI::Vec2 CUI::Primitive::Image::naturalSize(Vec2 availableSpace) {
-    return size;
+    if(availableSpace.x >= size.x && availableSpace.y >= size.y)
+        return size;
+    float ratioX = availableSpace.x / size.x;
+    float ratioY = availableSpace.y / size.y;
+    return size * std::min(ratioX, ratioY);
 }
