@@ -23,7 +23,7 @@ bool CUI::HitBoxEl::processEvent(ContextPtr ctx, MouseEvent event) {
 
         if(ctx->capture.get() == this && event.button == MouseEvent::Button::left) {
             ctx->capture = nullptr;
-            if(!contains(*event.position)) return false;
+            if(!contains(*event.position) || clickOnDown) return false;
             event.type = MouseEvent::click;
             ctx->pendingEvents.push_back(event);
         }
@@ -52,17 +52,17 @@ bool CUI::HitBoxEl::processEvent(ContextPtr ctx, MouseEvent event) {
             if(clickOnDown || !consumes) {
                 event.type = MouseEvent::click;
                 ctx->pendingEvents.push_back(event);
-            } else {
-                ctx->capture = shared_from_this();
             }
+            if(consumes)
+                ctx->capture = shared_from_this();
         }
         return consumes;
     }
 
     if(event.type == MouseEvent::move) {
-        if(!contains(*event.position)) return false;
+        if(!contains(*event.position) && !isPressed()) return false;
         ctx->pendingEvents.push_back(event);
-        return consumes;
+        return false;
     }
 
     return consumes;

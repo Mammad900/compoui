@@ -45,10 +45,10 @@ namespace CUI {
         // Whether the mouse is inside this hit-box right now.
         bool isHovered() { return hoverPrevious; }
 
+        std::weak_ptr<Context> ctx;
     private:
         Rect lastRect;
         bool hoverNow = false, hoverPrevious = false;
-        std::weak_ptr<Context> ctx;
 
         // Engine sends unprocessed events here. Return true to consume the event. Do NOT consume "up".
         virtual bool processEvent(ContextPtr ctx, MouseEvent event); 
