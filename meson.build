@@ -7,7 +7,7 @@ subdir('src/compoui')
 
 # Test application
 executable('test_app',
-  ['src/app/main.cpp', 'src/app/ui.cpp'],
+  ['src/app/main.cpp'],
   dependencies : [dependency('sfml')],
   link_with : lib_compoui
 )
