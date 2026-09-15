@@ -8,8 +8,8 @@ CUI::Primitive::Primitive::Primitive(unsigned int &program, const char *fragment
                                             fragmentSource);
     }
     glUseProgram(program);
-    rectLoc   = glGetUniformLocation(program, "rect");
-    vpSizeLoc = glGetUniformLocation(program, "viewportSize");
+    rectLoc   = glGetUniformLocation(program, "uRect");
+    vpSizeLoc = glGetUniformLocation(program, "uViewportSize");
 }
 
 void CUI::Primitive::Primitive::draw(ContextPtr ctx, CUI::Rect rect) {

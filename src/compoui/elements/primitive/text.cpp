@@ -2,34 +2,15 @@
 #include "../../util/shader.hpp"
 #include <vector>
 
-const char* CUI::Primitive::Text::vertSource = R"(
-    #version 460 core
-    layout(location = 0) in vec2 aPos;
-    layout(location = 1) in vec2 aTexCoord;
-
-    uniform vec4 rect;
-    uniform vec2 viewportSize;
-
-    out vec2 vTexCoord;
-
-    void main() {
-        vec2 globalPixel = round(rect.xy + aPos + vec2(0.01, 0.01));
-        vec2 globalUV = globalPixel / viewportSize;
-        vec2 pos_normalized = globalUV * vec2(2.0, -2.0) + vec2(-1.0, 1.0);
-        gl_Position = vec4(pos_normalized, 0.0, 1.0);
-        vTexCoord = aTexCoord;
-    }
-)";
-
 const char* CUI::Primitive::Text::fragSource = R"(
     #version 460 core
     in vec2 vTexCoord;
-    uniform sampler2D uTex;
-    uniform vec4 textColor;
-    out vec4 FragColor;
+    uniform sampler2D tTex;
+    uniform vec4 uTextColor;
+    out vec4 outColor;
 
     void main() {
-        FragColor = textColor * vec4(1.0, 1.0, 1.0, texture(uTex, vTexCoord).r);
+        outColor = uTextColor * vec4(1.0, 1.0, 1.0, texture(tTex, vTexCoord).r);
     }
 )";
 
@@ -39,7 +20,7 @@ CUI::Primitive::Text::Text(std::shared_ptr<Font> font, std::string text, Color c
             font(font), text(text), color(color)
 {
     if(program == 0)
-        program = Util::createShaderProgram(vertSource, fragSource);
+        program = Util::createShaderProgram(Util::genericVertexShader, fragSource);
 
     /* ---- Create VAO/VBO/EBO --------------------------------- */
     glGenVertexArrays(1, &vao);
@@ -66,9 +47,9 @@ CUI::Primitive::Text::Text(std::shared_ptr<Font> font, std::string text, Color c
     glBindVertexArray(0);   // unbind VAO
 
     glUseProgram(program);
-    rectLoc = glGetUniformLocation(program, "rect");
-    vpSizeLoc = glGetUniformLocation(program, "viewportSize");
-    textColorLoc = glGetUniformLocation(program, "textColor");
+    rectLoc = glGetUniformLocation(program, "uRect");
+    vpSizeLoc = glGetUniformLocation(program, "uViewportSize");
+    textColorLoc = glGetUniformLocation(program, "uTextColor");
 
     updateGeometry();      // build initial geometry
 }
@@ -83,7 +64,7 @@ void CUI::Primitive::Text::draw(ContextPtr ctx, Rect rect) {
     glUseProgram(program);
 
     // Uniforms
-    glUniform4fv(rectLoc, 1, &rect.pos.x);
+    glUniform4f(rectLoc, rect.pos.x, rect.pos.y, 1, 1);
     glUniform2fv(vpSizeLoc, 1, &ctx->windowSize.x);
     glUniform4fv(textColorLoc, 1, &color.r);
 

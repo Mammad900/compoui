@@ -7,21 +7,6 @@
 #include <memory>
 #include <optional>
 
-const char *fragmentSource = R"(
-    #version 460 core
-
-    in vec2 globalPixel;
-    in vec2 localPixel;
-    in vec2 globalUV;
-    in vec2 localUV;
-
-    out vec4 color;
-
-    void main() {
-        color = vec4(mod(globalUV, 1.0), 1.0, 1.0);
-    }
-)";
-
 CUI::Context::Context(uint w, uint h, std::shared_ptr<Element> root) 
     : windowSize(w, h), root(root), lastFrame(std::chrono::steady_clock::now()) {
 

@@ -30,7 +30,7 @@ namespace CUI::Primitive {
 
     private:
         static int program;
-        static const char *vertSource, *fragSource;
+        static const char *fragSource;
         unsigned int vao, vbo, ebo, indexCount = 0;
         int rectLoc, vpSizeLoc, textColorLoc;
         Vec2 totalSize;

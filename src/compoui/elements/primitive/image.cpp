@@ -7,19 +7,19 @@ unsigned int CUI::Primitive::Image::program = 0;
 const char* CUI::Primitive::Image::fragmentSource = R"(
     #version 460 core
 
-    uniform sampler2D imageTex;
-    uniform vec4 color;
-    uniform bool isAlpha;
+    uniform sampler2D tImageTex;
+    uniform vec4 uColor;
+    uniform bool uIsAlpha;
 
-    in vec2 localUV;
+    in vec2 vLocalUV;
     out vec4 outColor;
 
     void main() {
-        vec4 tex = texture(imageTex, localUV);
-        if(isAlpha)
-            outColor = vec4(1.0, 1.0, 1.0, tex.r) * color;
+        vec4 tex = texture(tImageTex, vLocalUV);
+        if(uIsAlpha)
+            outColor = vec4(1.0, 1.0, 1.0, tex.r) * uColor;
         else
-            outColor = tex * color;
+            outColor = tex * uColor;
     }
 )";
 
@@ -27,9 +27,9 @@ CUI::Primitive::Image::Image(std::shared_ptr<Texture> texture, Vec2 size, Color 
     : Primitive(program, fragmentSource), texture(texture), size(size), color(color)
 {
     // uniform locations
-    imageLoc = glGetUniformLocation(program, "imageTex");
-    colorLoc = glGetUniformLocation(program, "color");
-    isAlphaLoc = glGetUniformLocation(program, "isAlpha");
+    imageLoc = glGetUniformLocation(program, "tImageTex");
+    colorLoc = glGetUniformLocation(program, "uColor");
+    isAlphaLoc = glGetUniformLocation(program, "uIsAlpha");
 }
 
 void CUI::Primitive::Image::setDerivedUniforms(ContextPtr, CUI::Rect rect) {
