@@ -24,6 +24,11 @@ namespace CUI::Primitive {
         
         void draw(ContextPtr ctx, Rect rect) override;
 
+        void setText(const std::string &text) {
+            this->text = text;
+            updateGeometry();
+        }
+
         Vec2 naturalSize(Vec2 availableSpace) override {
             return totalSize;
         }
