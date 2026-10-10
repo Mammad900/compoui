@@ -2,3 +2,5 @@
 subprojects/*
 !subprojects/.wraplock
 !subprojects/*.wrap
+src/app/
+.vscode

@@ -4,10 +4,8 @@ project('compoui', ['cpp', 'c'],
 )
 
 subdir('src/compoui')
+fs = import('fs')
 
-# Test application
-executable('test_app',
-  ['src/app/main.cpp'],
-  dependencies : [dependency('sfml')],
-  link_with : lib_compoui
-)
+if fs.exists('src/app/meson.build')
+    subdir('src/app')
+endif
