@@ -21,6 +21,9 @@ namespace CUI {
         // The root element. This element is rendered with the rect filling the window.
         std::shared_ptr<Element> root;
 
+        // The current clip boundary. Is set while drawing a Clip element and its children.
+        std::optional<Rect> clipRect;
+
         // OpenGL VAO used to render a quad. Consider readonly.
         unsigned int vao;
         // OpenGL VBO used to render a quad. Consider readonly.
@@ -47,6 +50,9 @@ namespace CUI {
 
         // Time between this frame and the last, in seconds
         float deltaTime;
+
+        // Sets the current clip boundary. Used by the Clip element
+        void setClip(std::optional<Rect> rect);
     private:
         std::vector<std::shared_ptr<HitBoxEl>> hitBoxes;
         std::vector<MouseEvent> pendingEvents;
@@ -55,8 +61,6 @@ namespace CUI {
     };
 
     typedef const std::shared_ptr<Context>& ContextPtr;
-
-    void drawQuadAt(ContextPtr ctx, Rect rect);
 
     // The smallest building block of a UI.
     class Element {

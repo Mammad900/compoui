@@ -150,3 +150,17 @@ void CUI::Context::postEvents() {
     hitBoxes.clear();
     pendingEvents.clear();
 }
+
+void CUI::Context::setClip(std::optional<Rect> rect) {
+    clipRect = rect;
+    if(rect) {
+        glEnable(GL_SCISSOR_TEST);
+        glScissor(
+            rect->pos.x, 
+            windowSize.y - (rect->pos.y + rect->size.y), 
+            rect->size.x, 
+            rect->size.y);
+    } else {
+        glDisable(GL_SCISSOR_TEST);
+    }
+}
