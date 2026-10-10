@@ -60,6 +60,14 @@ This is similar to Flutter, SwiftUI and Jetpack Compose.
 
 This can make the element tree more complicated, but makes it easier to reason about, and is also more performant, since a single div doesn't have to compute a million rules to draw.
 
+### No built-in widgets
+
+No buttons, check-boxes, progress bars, sliders, etc. You make them yourself from the layout and graphics primitives.
+
+Rather than trying to force a specific widget style, or implement many styling variables and introducing bloat, CompoUI leaves it to you to implement them.
+
+A widget made for everyone is a widget made for no one.
+
 ## Libraries used
 
 - GLAD: OpenGL loader
