@@ -23,7 +23,7 @@ namespace CUI::Primitive {
         void setDerivedUniforms(ContextPtr, CUI::Rect) override;
 
         // The texture to draw
-        std::shared_ptr<Texture> texture;;
+        std::shared_ptr<Texture> texture;
         // Natural size
         Vec2 size;
         // Multiply image colors by this color
