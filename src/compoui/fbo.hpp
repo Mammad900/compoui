@@ -1,6 +1,5 @@
 #pragma once
 #include "cui.hpp"
-#include "glad/glad.h"
 #include <memory>
 
 namespace CUI {
