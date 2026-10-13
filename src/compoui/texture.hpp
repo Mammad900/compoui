@@ -27,6 +27,8 @@ public:
      */
     Texture(const Vec2& sz, const uint8_t* buf, bool mono = false);
 
+    Texture(const Vec2& size, unsigned int id) : id(id), monochrome(false), size(size) {}
+
     ~Texture();
 };
 

@@ -5,6 +5,7 @@ lib_compoui = static_library(
     'cui.cpp',
     'hitbox.cpp',
     'texture.cpp',
+    'fbo.cpp',
     'util/shader.cpp',
     'font/font.cpp',
     'elements/primitive/primitive.cpp',
