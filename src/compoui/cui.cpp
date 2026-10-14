@@ -199,7 +199,6 @@ void CUI::Context::pasteFBO(std::shared_ptr<FBO> &src) {
     static std::shared_ptr<Primitive::Image> img;
     if(!img) img = Factories::Image(texture);
 
-    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     texture->id = src->tex;
     img->draw(shared_from_this(), {{0,windowSize.y}, windowSize * Vec2{1, -1}});
 
