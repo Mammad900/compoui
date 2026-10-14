@@ -18,11 +18,18 @@ As my friend calls it:
   - **Padding**
   - **Align**
   - **ZStack**: Draw elements on the same area on top of each other. The recommended way to draw backgrounds, shadows, hit-boxes, etc together with content.
+  - **Clip**: Prevent the child from overflowing out of the parent
+  - **Offset**: Move the child a bit relative to the parent
+  - **CenterFill**: Have a child at the start and end, and another filling the rest
+  - **Clamp**: Limit the natural size of the child
 - **Primitives**
   - **Fill**: Draw a background color
   - **Image**
   - **Text**
 - **HitBox**: Receive mouse input
+- **Filters**: Apply a filter to an element
+  - **Opacity**
+- **Layers**: Draw an element on top of everything else
 
 ## Architecture
 
@@ -56,7 +63,7 @@ Unix philosophy: do one thing and do it well.
 
 Each element type is single purpose: List, Padding, Align, Text, Fill, Image.
 
-This is similar to Flutter, SwiftUI and Jetpack Compose.
+This is similar to Flutter, SwiftUI and Jetpack Compose, but taken further.
 
 This can make the element tree more complicated, but makes it easier to reason about, and is also more performant, since a single div doesn't have to compute a million rules to draw.
 
@@ -72,4 +79,3 @@ A widget made for everyone is a widget made for no one.
 
 - GLAD: OpenGL loader
 - FreeType2: Font loading and rasterization
-- SFML: Window creation and image loading (not required, you can use alternatives like SDL, CompoUI is window library agnostic)
