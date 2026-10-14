@@ -11,7 +11,6 @@ namespace CUI::Layout {
       public:
         std::vector<std::shared_ptr<Element>> children;
         float gap;
-        enum Orientation {vertical, horizontal};
         Orientation orientation;
 
         List(std::vector<std::shared_ptr<Element>> children, float gap = 0, Orientation orientation = vertical) 
@@ -68,11 +67,10 @@ namespace CUI::Layout {
 }
 
 namespace CUI::Factories {
-    using ListOrientation = Layout::List::Orientation;
-    inline std::shared_ptr<Layout::List> List(float gap, ListOrientation orientation, std::vector<std::shared_ptr<Element>> children) {
+    inline std::shared_ptr<Layout::List> List(float gap, Orientation orientation, std::vector<std::shared_ptr<Element>> children) {
         return std::make_shared<Layout::List>(children, gap, orientation);
     }
-    inline std::shared_ptr<Layout::List> List(ListOrientation orientation, std::vector<std::shared_ptr<Element>> children) {
+    inline std::shared_ptr<Layout::List> List(Orientation orientation, std::vector<std::shared_ptr<Element>> children) {
         return std::make_shared<Layout::List>(children, 0, orientation);
     }
     inline std::shared_ptr<Layout::List> List(float gap, std::vector<std::shared_ptr<Element>> children) {

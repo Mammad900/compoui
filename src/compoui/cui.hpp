@@ -17,6 +17,8 @@ namespace CUI {
     namespace Misc {
         class Layer;
     }
+
+    enum Orientation {vertical, horizontal};
     
     // Contains info about a GUI window.
     class Context : public std::enable_shared_from_this<Context> {

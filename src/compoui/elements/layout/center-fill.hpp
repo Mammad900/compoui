@@ -8,7 +8,6 @@ namespace CUI::Layout {
     // Places two children at the start and end, and fills the rest with the center child.
     class CenterFill : public Element {
     public:
-        enum Orientation {vertical, horizontal};
         std::shared_ptr<Element> start, center, end;
         Orientation orientation;
 
@@ -72,9 +71,8 @@ namespace CUI::Layout {
 }
 
 namespace CUI::Factories {
-    using CenterFillOrientation = Layout::CenterFill::Orientation;
     inline std::shared_ptr<Layout::CenterFill> CenterFill(
-        CenterFillOrientation orientation,
+        Orientation orientation,
         std::shared_ptr<Element> start,
         std::shared_ptr<Element> center,
         std::shared_ptr<Element> end
