@@ -6,6 +6,6 @@
 #include <memory>
 namespace CUI::Factories {
     inline std::shared_ptr<Misc::ForegroundFilter> Opacity(float opacity, std::shared_ptr<Element> child) {
-        return ForegroundFilter(std::make_shared<Filter::Opacity>(opacity), child);
+        return ForegroundFilter(Opacity(opacity), child);
     }
 }

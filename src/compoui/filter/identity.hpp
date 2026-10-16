@@ -14,3 +14,8 @@ namespace CUI::Filter {
         std::vector<Step> getSteps() override;
     };
 }
+namespace CUI::Factories {
+    inline std::shared_ptr<Filter::Identity> IdentityFilter() {
+        return std::make_shared<Filter::Identity>();
+    }
+}
