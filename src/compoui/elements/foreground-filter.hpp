@@ -1,7 +1,10 @@
 #pragma once
 #include "../cui.hpp"
 #include "../filter/filter.hpp"
+#include "fbo.hpp"
+#include <cstddef>
 #include <memory>
+#include <vector>
 
 namespace CUI::Misc {
     class ForegroundFilter : public Element {
@@ -16,15 +19,29 @@ namespace CUI::Misc {
         }
 
         void draw(ContextPtr ctx, CUI::Rect rect) override {
-            auto fbo = ctx->getFBO();
-            ctx->activateFBO(fbo->fbo, true);
+            auto childrenFbo = ctx->getFBO();
+            ctx->activateFBO(childrenFbo->fbo, true);
             child->draw(ctx, rect);
-            ctx->activateFBO(ctx->mainFBO);
 
-            auto steps = filter->getSteps();
-            auto step = steps[0];
-            
-            filter->draw(ctx, rect, step, fbo->fbo);
+            std::vector<Filter::Step> steps = filter->getSteps();
+
+            std::shared_ptr<FBOLease> tempFbo = nullptr;
+
+            for (size_t i = 0; i < steps.size(); i++) {
+                Filter::Step &step = steps[i];
+                bool isFirst = i == 0;
+                bool isLast = i == steps.size() - 1;
+                std::shared_ptr<FBOLease> sourceFbo = isFirst ? childrenFbo : tempFbo;
+                if(!isLast) {
+                    tempFbo = nullptr;
+                    tempFbo = ctx->getFBO();
+                }
+                std::shared_ptr<FBO> destFbo = isLast ? ctx->mainFBO : tempFbo->fbo;
+
+                
+                ctx->activateFBO(destFbo, !isLast);
+                filter->draw(ctx, rect, step, sourceFbo->fbo);
+            }
         }
     };
 }

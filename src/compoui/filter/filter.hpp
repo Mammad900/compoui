@@ -10,14 +10,16 @@ namespace CUI::Filter {
         std::function<void(std::shared_ptr<FBO> &fbo)> setUniforms;
         float grow;
         unsigned int program;
+        int vpSizeLoc, rectLoc;
     };
 
     class Filter {
+        protected:
         int vpSizeLoc, rectLoc;
-    protected:
         Filter(unsigned int &program, const char* fragmentSource);
+        Filter() {}
     public:
         virtual std::vector<Step> getSteps() = 0;
-        void draw(ContextPtr ctx, Rect rect, Step& step, std::shared_ptr<FBO> &fbo);
+        static void draw(ContextPtr ctx, Rect rect, Step& step, std::shared_ptr<FBO> &fbo);
     };
 }

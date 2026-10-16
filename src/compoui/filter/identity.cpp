@@ -29,7 +29,9 @@ std::vector<CUI::Filter::Step> CUI::Filter::Identity::getSteps() {
                 glUniform1i(imageLoc, 0);
             },
             0,
-            program
+            program,
+            vpSizeLoc,
+            rectLoc
         }
     };
 }

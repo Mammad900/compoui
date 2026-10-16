@@ -8,9 +8,9 @@ void CUI::Filter::Filter::draw(ContextPtr ctx, CUI::Rect rect, Step &step, std::
     // Uniforms common to all primitives.
     rect.pos.y += rect.size.y;
     rect.size.y *= -1;
-    glUniform4fv(rectLoc, 1, &rect.pos.x);
+    glUniform4fv(step.rectLoc, 1, &rect.pos.x);
 
-    glUniform2fv(vpSizeLoc, 1, &ctx->windowSize.x);
+    glUniform2fv(step.vpSizeLoc, 1, &ctx->windowSize.x);
 
     // Derived class may add its own uniforms here.
     step.setUniforms(fbo);

@@ -34,7 +34,9 @@ std::vector<CUI::Filter::Step> CUI::Filter::Opacity::getSteps() {
                 glUniform1f(opacityLoc, opacity);
             },
             0,
-            program
+            program,
+            vpSizeLoc,
+            rectLoc
         }
     };
 }
