@@ -26,6 +26,7 @@ namespace CUI::Misc {
             std::vector<Filter::Step> steps = filter->getSteps();
 
             std::shared_ptr<FBOLease> tempFbo = nullptr;
+            float growCarry = 0;
 
             for (size_t i = 0; i < steps.size(); i++) {
                 Filter::Step &step = steps[i];
@@ -38,6 +39,9 @@ namespace CUI::Misc {
                 }
                 std::shared_ptr<FBO> destFbo = isLast ? ctx->mainFBO : tempFbo->fbo;
 
+                float grow = step.grow;
+                step.grow += growCarry;
+                if(step.growCarry) growCarry += grow;
                 
                 ctx->activateFBO(destFbo, !isLast);
                 filter->draw(ctx, rect, step, sourceFbo->fbo);

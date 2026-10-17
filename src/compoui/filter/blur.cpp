@@ -103,6 +103,7 @@ std::vector<CUI::Filter::Step> CUI::Filter::Blur::getSteps() {
 
     return {
         Step{ // Horizontal pass
+            program,
             [this, radius](std::shared_ptr<FBO> &fbo, ContextPtr ctx) {
                 glActiveTexture(GL_TEXTURE1);
                 glBindTexture(GL_TEXTURE_1D, weightsTex);
@@ -112,9 +113,9 @@ std::vector<CUI::Filter::Step> CUI::Filter::Blur::getSteps() {
                 glUniform2f(5, 1.f / ctx->windowSize.x, 0.f );
             },
             (float)radius,
-            program,
         },
         Step{ // Horizontal pass
+            program,
             [this, radius](std::shared_ptr<FBO> &fbo, ContextPtr ctx) {
                 glActiveTexture(GL_TEXTURE1);
                 glBindTexture(GL_TEXTURE_1D, weightsTex);
@@ -124,7 +125,7 @@ std::vector<CUI::Filter::Step> CUI::Filter::Blur::getSteps() {
                 glUniform2f(5, 0.f, 1.f / ctx->windowSize.y);
             },
             clip ? 0 : (float)radius,
-            program,
+            true
         }
     };
 }

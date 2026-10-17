@@ -7,9 +7,10 @@
 
 namespace CUI::Filter {
     struct Step {
+        unsigned int program;
         std::function<void(std::shared_ptr<FBO> &fbo, ContextPtr ctx)> setUniforms;
         float grow;
-        unsigned int program;
+        bool growCarry;
     };
 
     class Filter {

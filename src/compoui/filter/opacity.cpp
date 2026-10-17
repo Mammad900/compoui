@@ -24,11 +24,11 @@ CUI::Filter::Opacity::Opacity(float opacity) : Filter(program, fragmentSource), 
 std::vector<CUI::Filter::Step> CUI::Filter::Opacity::getSteps() {
     return {
         Step{
+            program,
             [this](std::shared_ptr<FBO> &fbo, ContextPtr ctx) {
                 glUniform1f(3, opacity);
             },
             0,
-            program,
         }
     };
 }

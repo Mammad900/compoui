@@ -21,9 +21,9 @@ CUI::Filter::Identity::Identity() : Filter(program, fragmentSource) { }
 std::vector<CUI::Filter::Step> CUI::Filter::Identity::getSteps() {
     return {
         Step{
+            program,
             [](std::shared_ptr<FBO> &fbo, ContextPtr ctx) {},
             0,
-            program,
         }
     };
 }
