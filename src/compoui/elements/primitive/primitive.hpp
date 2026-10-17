@@ -11,7 +11,6 @@ namespace CUI::Primitive {
 
     protected:
         unsigned int &program;
-        int rectLoc, vpSizeLoc;
         /* Derived classes override this if they need to push extra uniforms. */
         virtual void setDerivedUniforms(ContextPtr, CUI::Rect) = 0;
     };

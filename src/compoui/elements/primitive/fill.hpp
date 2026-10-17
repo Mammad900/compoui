@@ -11,7 +11,6 @@ namespace CUI::Primitive {
     class Fill : public Primitive {
         static unsigned int program;
         static const char* fragmentSource;
-        int backgroundLoc;
 
     public:
         Fill(Color background, Vec2 size = {0,0});

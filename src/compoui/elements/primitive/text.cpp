@@ -5,8 +5,8 @@
 const char* CUI::Primitive::Text::fragSource = R"(
     #version 460 core
     in vec2 vTexCoord;
-    uniform sampler2D tTex;
-    uniform vec4 uTextColor;
+    layout(location = 2) uniform sampler2D tTex;
+    layout(location = 3) uniform vec4 uTextColor;
     out vec4 outColor;
 
     void main() {
@@ -47,9 +47,6 @@ CUI::Primitive::Text::Text(std::shared_ptr<Font> font, std::string text, Color c
     glBindVertexArray(0);   // unbind VAO
 
     glUseProgram(program);
-    rectLoc = glGetUniformLocation(program, "uRect");
-    vpSizeLoc = glGetUniformLocation(program, "uViewportSize");
-    textColorLoc = glGetUniformLocation(program, "uTextColor");
 
     updateGeometry();      // build initial geometry
 }
@@ -64,9 +61,9 @@ void CUI::Primitive::Text::draw(ContextPtr ctx, Rect rect) {
     glUseProgram(program);
 
     // Uniforms
-    glUniform4f(rectLoc, rect.pos.x, rect.pos.y, 1, 1);
-    glUniform2fv(vpSizeLoc, 1, &ctx->windowSize.x);
-    glUniform4fv(textColorLoc, 1, &color.r);
+    glUniform4f(0, rect.pos.x, rect.pos.y, 1, 1);
+    glUniform2fv(1, 1, &ctx->windowSize.x);
+    glUniform4fv(3, 1, &color.r);
 
     /* Bind font atlas texture */
     glActiveTexture(GL_TEXTURE0);

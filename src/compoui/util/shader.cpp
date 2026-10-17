@@ -6,8 +6,8 @@ const char* CUI::Util::genericVertexShader = R"(
     layout(location = 0) in vec2 aPos;
     layout(location = 1) in vec2 aTexCoord;
 
-    uniform vec4 uRect;
-    uniform vec2 uViewportSize;
+    layout(location = 0) uniform vec4 uRect;
+    layout(location = 1) uniform vec2 uViewportSize;
 
     out vec2 vGlobalPixel;
     out vec2 vLocalPixel;

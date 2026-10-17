@@ -6,8 +6,6 @@ namespace CUI::Filter {
         static unsigned int program;
         static const char* fragmentSource;
 
-        int imageLoc;
-
     public:
         Identity();
 

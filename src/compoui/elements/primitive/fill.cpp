@@ -5,7 +5,7 @@ unsigned int CUI::Primitive::Fill::program = 0;
 const char* CUI::Primitive::Fill::fragmentSource = R"(
     #version 460 core
 
-    uniform vec4 uBackground;
+    layout(location = 2) uniform vec4 uBackground;
 
     out vec4 outColor;
 
@@ -14,10 +14,9 @@ const char* CUI::Primitive::Fill::fragmentSource = R"(
     }
 )";
 
-CUI::Primitive::Fill::Fill(Color background, Vec2 size) : Primitive(program, fragmentSource), background(background), size(size) {
-    backgroundLoc = glGetUniformLocation(program, "uBackground");
-}
+CUI::Primitive::Fill::Fill(Color background, Vec2 size) 
+    : Primitive(program, fragmentSource), background(background), size(size) { }
 
 void CUI::Primitive::Fill::setDerivedUniforms(ContextPtr, CUI::Rect) {
-    glUniform4fv(backgroundLoc, 1, &background.r);
+    glUniform4fv(2, 1, &background.r);
 }

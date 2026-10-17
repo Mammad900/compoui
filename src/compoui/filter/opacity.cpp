@@ -6,8 +6,8 @@ unsigned int CUI::Filter::Opacity::program = 0;
 const char* CUI::Filter::Opacity::fragmentSource = R"(
     #version 460 core
 
-    uniform sampler2D tImageTex;
-    uniform float uOpacity;
+    layout(location = 2) uniform sampler2D tImageTex;
+    layout(location = 3) uniform float uOpacity;
 
     in vec2 vLocalUV;
     out vec4 outColor;
@@ -18,25 +18,16 @@ const char* CUI::Filter::Opacity::fragmentSource = R"(
     }
 )";
 
-CUI::Filter::Opacity::Opacity(float opacity) : Filter(program, fragmentSource), opacity(opacity) {
-    imageLoc = glGetUniformLocation(program, "tImageTex");
-    opacityLoc = glGetUniformLocation(program, "uOpacity");
-}
+CUI::Filter::Opacity::Opacity(float opacity) : Filter(program, fragmentSource), opacity(opacity) { }
 
 std::vector<CUI::Filter::Step> CUI::Filter::Opacity::getSteps() {
     return {
         Step{
             [this](std::shared_ptr<FBO> &fbo) {
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, fbo->tex);
-                glUniform1i(imageLoc, 0);
-
-                glUniform1f(opacityLoc, opacity);
+                glUniform1f(3, opacity);
             },
             0,
             program,
-            vpSizeLoc,
-            rectLoc
         }
     };
 }

@@ -8,9 +8,13 @@ void CUI::Filter::Filter::draw(ContextPtr ctx, CUI::Rect rect, Step &step, std::
     // Uniforms common to all primitives.
     rect.pos.y += rect.size.y;
     rect.size.y *= -1;
-    glUniform4fv(step.rectLoc, 1, &rect.pos.x);
+    glUniform4fv(0, 1, &rect.pos.x);
 
-    glUniform2fv(step.vpSizeLoc, 1, &ctx->windowSize.x);
+    glUniform2fv(1, 1, &ctx->windowSize.x);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, fbo->tex);
+    glUniform1i(2, 0);
 
     // Derived class may add its own uniforms here.
     step.setUniforms(fbo);
@@ -23,6 +27,4 @@ CUI::Filter::Filter::Filter(unsigned int &program, const char* fragmentSource) {
     if(program == 0) {
         program = Util::createShaderProgram(Util::genericVertexShader, fragmentSource);
     }
-    rectLoc   = glGetUniformLocation(program, "uRect");
-    vpSizeLoc = glGetUniformLocation(program, "uViewportSize");
 }

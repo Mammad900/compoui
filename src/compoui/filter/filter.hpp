@@ -10,12 +10,10 @@ namespace CUI::Filter {
         std::function<void(std::shared_ptr<FBO> &fbo)> setUniforms;
         float grow;
         unsigned int program;
-        int vpSizeLoc, rectLoc;
     };
 
     class Filter {
         protected:
-        int vpSizeLoc, rectLoc;
         Filter(unsigned int &program, const char* fragmentSource);
         Filter() {}
     public:

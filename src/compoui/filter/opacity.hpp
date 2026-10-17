@@ -7,8 +7,6 @@ namespace CUI::Filter {
         static unsigned int program;
         static const char* fragmentSource;
 
-        int imageLoc, opacityLoc;
-
     public:
         float opacity;
         Opacity(float opacity);

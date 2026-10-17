@@ -6,7 +6,7 @@ unsigned int CUI::Filter::Identity::program = 0;
 const char* CUI::Filter::Identity::fragmentSource = R"(
     #version 460 core
 
-    uniform sampler2D tImageTex;
+    layout(location = 2) uniform sampler2D tImageTex;
 
     in vec2 vLocalUV;
     out vec4 outColor;
@@ -16,22 +16,14 @@ const char* CUI::Filter::Identity::fragmentSource = R"(
     }
 )";
 
-CUI::Filter::Identity::Identity() : Filter(program, fragmentSource) {
-    imageLoc = glGetUniformLocation(program, "tImageTex");
-}
+CUI::Filter::Identity::Identity() : Filter(program, fragmentSource) { }
 
 std::vector<CUI::Filter::Step> CUI::Filter::Identity::getSteps() {
     return {
         Step{
-            [this](std::shared_ptr<FBO> &fbo) {
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, fbo->tex);
-                glUniform1i(imageLoc, 0);
-            },
+            [](std::shared_ptr<FBO> &fbo) {},
             0,
             program,
-            vpSizeLoc,
-            rectLoc
         }
     };
 }

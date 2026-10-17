@@ -8,17 +8,15 @@ CUI::Primitive::Primitive::Primitive(unsigned int &program, const char *fragment
                                             fragmentSource);
     }
     glUseProgram(program);
-    rectLoc   = glGetUniformLocation(program, "uRect");
-    vpSizeLoc = glGetUniformLocation(program, "uViewportSize");
 }
 
 void CUI::Primitive::Primitive::draw(ContextPtr ctx, CUI::Rect rect) {
     glUseProgram(program);
 
     // Uniforms common to all primitives.
-    glUniform4fv(rectLoc, 1, &rect.pos.x);
+    glUniform4fv(0, 1, &rect.pos.x);
 
-    glUniform2fv(vpSizeLoc, 1, &ctx->windowSize.x);
+    glUniform2fv(1, 1, &ctx->windowSize.x);
 
     // Derived class may add its own uniforms here.
     setDerivedUniforms(ctx, rect);

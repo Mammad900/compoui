@@ -13,7 +13,6 @@ namespace CUI::Primitive {
     class Image : public Primitive {
         static unsigned int program;
         static const char* fragmentSource;
-        int imageLoc, colorLoc, isAlphaLoc;
 
     public:
         Image(std::shared_ptr<Texture> texture, Vec2 size = {0,0}, Color color = Color::white);
