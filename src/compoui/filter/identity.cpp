@@ -1,5 +1,4 @@
 #include "identity.hpp"
-#include "../util/shader.hpp"
 #include "filter.hpp"
 
 unsigned int CUI::Filter::Identity::program = 0;
