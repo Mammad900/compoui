@@ -33,5 +33,12 @@ namespace CUI {
                     point.y >= pos.y &&
                     point.y < m.y;
         }
+
+        Rect grow(Vec2 amount) {
+            return {pos - amount, size + amount*2.f};
+        }
+        Rect grow(float amount) {
+            return grow({amount, amount});
+        }
     };
 }

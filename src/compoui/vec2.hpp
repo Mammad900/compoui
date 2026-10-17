@@ -85,6 +85,10 @@ namespace CUI {
             return x == b.x && y == b.y;
         }
 
+        Vec2 operator-() {
+            return {-x, -y};
+        }
+
         static Vec2 min(const Vec2& a, const Vec2& b) {
             return {std::min(a.x, b.x), std::min(a.y, b.y)};
         }

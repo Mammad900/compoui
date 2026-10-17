@@ -25,9 +25,7 @@ namespace CUI::Layout {
         void draw(ContextPtr ctx, Rect rect) override {
             Element::draw(ctx, rect);
 
-            Rect childRect {rect.pos + padding, rect.size - padding*2.f};
-
-            child->draw(ctx, childRect);
+            child->draw(ctx, rect.grow(-padding));
         }
     };
 }
