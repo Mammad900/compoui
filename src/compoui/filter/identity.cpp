@@ -11,7 +11,8 @@ const char* CUI::Filter::Identity::fragmentSource = R"(
     out vec4 outColor;
 
     void main() {
-        outColor = texture(tImageTex, vGlobalUV);
+        vec2 uv = vec2(vGlobalUV.x, 1.0 - vGlobalUV.y);
+        outColor = texture(tImageTex, uv);
     }
 )";
 
@@ -20,7 +21,7 @@ CUI::Filter::Identity::Identity() : Filter(program, fragmentSource) { }
 std::vector<CUI::Filter::Step> CUI::Filter::Identity::getSteps() {
     return {
         Step{
-            [](std::shared_ptr<FBO> &fbo) {},
+            [](std::shared_ptr<FBO> &fbo, ContextPtr ctx) {},
             0,
             program,
         }

@@ -6,8 +6,6 @@ void CUI::Filter::Filter::draw(ContextPtr ctx, CUI::Rect rect, Step &step, std::
     glUseProgram(step.program);
 
     // Uniforms common to all primitives.
-    rect.pos.y += rect.size.y;
-    rect.size.y *= -1;
     glUniform4fv(0, 1, &rect.pos.x);
 
     glUniform2fv(1, 1, &ctx->windowSize.x);
@@ -17,7 +15,7 @@ void CUI::Filter::Filter::draw(ContextPtr ctx, CUI::Rect rect, Step &step, std::
     glUniform1i(2, 0);
 
     // Derived class may add its own uniforms here.
-    step.setUniforms(fbo);
+    step.setUniforms(fbo, ctx);
 
     glBindVertexArray(ctx->vao);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);

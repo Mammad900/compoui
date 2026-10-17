@@ -7,7 +7,7 @@
 
 namespace CUI::Filter {
     struct Step {
-        std::function<void(std::shared_ptr<FBO> &fbo)> setUniforms;
+        std::function<void(std::shared_ptr<FBO> &fbo, ContextPtr ctx)> setUniforms;
         float grow;
         unsigned int program;
     };

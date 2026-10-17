@@ -13,7 +13,8 @@ const char* CUI::Filter::Opacity::fragmentSource = R"(
     out vec4 outColor;
 
     void main() {
-        vec4 src = texture(tImageTex, vGlobalUV);
+        vec2 uv = vec2(vGlobalUV.x, 1.0 - vGlobalUV.y);
+        vec4 src = texture(tImageTex, uv);
         outColor = vec4(src.rgb, src.a * uOpacity);
     }
 )";
@@ -23,7 +24,7 @@ CUI::Filter::Opacity::Opacity(float opacity) : Filter(program, fragmentSource), 
 std::vector<CUI::Filter::Step> CUI::Filter::Opacity::getSteps() {
     return {
         Step{
-            [this](std::shared_ptr<FBO> &fbo) {
+            [this](std::shared_ptr<FBO> &fbo, ContextPtr ctx) {
                 glUniform1f(3, opacity);
             },
             0,
