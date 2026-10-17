@@ -7,11 +7,11 @@ const char* CUI::Filter::Identity::fragmentSource = R"(
 
     layout(location = 2) uniform sampler2D tImageTex;
 
-    in vec2 vLocalUV;
+    in vec2 vGlobalUV;
     out vec4 outColor;
 
     void main() {
-        outColor = texture(tImageTex, vLocalUV);
+        outColor = texture(tImageTex, vGlobalUV);
     }
 )";
 

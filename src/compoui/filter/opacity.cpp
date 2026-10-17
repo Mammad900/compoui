@@ -9,11 +9,11 @@ const char* CUI::Filter::Opacity::fragmentSource = R"(
     layout(location = 2) uniform sampler2D tImageTex;
     layout(location = 3) uniform float uOpacity;
 
-    in vec2 vLocalUV;
+    in vec2 vGlobalUV;
     out vec4 outColor;
 
     void main() {
-        vec4 src = texture(tImageTex, vLocalUV);
+        vec4 src = texture(tImageTex, vGlobalUV);
         outColor = vec4(src.rgb, src.a * uOpacity);
     }
 )";
