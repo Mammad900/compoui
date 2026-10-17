@@ -29,6 +29,7 @@ As my friend calls it:
 - **HitBox**: Receive mouse input
 - **Filters**: Apply a filter to an element
   - **Opacity**
+  - **Blur**
 - **Layers**: Draw an element on top of everything else
 
 ## Architecture

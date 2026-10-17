@@ -14,7 +14,8 @@ lib_compoui = static_library(
     'elements/primitive/text.cpp',
     'filter/filter.cpp',
     'filter/identity.cpp',
-    'filter/opacity.cpp'
+    'filter/opacity.cpp',
+    'filter/blur.cpp',
   ],
   dependencies: [
     dependency('gl'), 

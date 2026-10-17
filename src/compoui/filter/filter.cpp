@@ -6,7 +6,8 @@ void CUI::Filter::Filter::draw(ContextPtr ctx, CUI::Rect rect, Step &step, std::
     glUseProgram(step.program);
 
     // Uniforms common to all primitives.
-    glUniform4fv(0, 1, &rect.pos.x);
+    Rect rectGrown = rect.grow(step.grow);
+    glUniform4fv(0, 1, &rectGrown.pos.x);
 
     glUniform2fv(1, 1, &ctx->windowSize.x);
 
