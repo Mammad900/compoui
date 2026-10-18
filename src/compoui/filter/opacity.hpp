@@ -16,6 +16,7 @@ namespace CUI::Filter {
 }
 
 namespace CUI::Factories {
+    // Opacity filter. Reduces the opacity of the input.
     inline std::shared_ptr<Filter::Opacity> Opacity(float opacity) {
         return std::make_shared<Filter::Opacity>(opacity);
     }

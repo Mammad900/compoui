@@ -31,9 +31,14 @@ namespace CUI::Layout {
 }
 
 namespace CUI::Factories {
+    // Positions the child's edges slightly offset inwards relative to its own.
+    // Natural size the child's natural size plus twice the padding.
     inline std::shared_ptr<Layout::Padding> Padding(Vec2 padding, std::shared_ptr<Element> child) {
         return std::make_shared<Layout::Padding>(child, padding);
     }
+
+    // Positions the child's edges slightly offset inwards relative to its own.
+    // Natural size the child's natural size plus twice the padding.
     inline std::shared_ptr<Layout::Padding> Padding(float padding, std::shared_ptr<Element> child) {
         return std::make_shared<Layout::Padding>(child, Vec2{padding, padding});
     }

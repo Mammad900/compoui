@@ -9,7 +9,7 @@
 namespace CUI::Primitive {
     // Renders single line text.
     // Natural size is the text bounds.
-    // Does not fill its rect unless at natural size. Anchors to top left.
+    // Does not fill its rect and aligns to top left unless at natural size.
     class Text : public Element {
     public:
         // The font face
@@ -43,6 +43,9 @@ namespace CUI::Primitive {
 }
 
 namespace CUI::Factories {
+    /// Renders single line text.
+    /// Natural size is the text bounds.
+    /// Does not fill its rect and aligns to top left unless at natural size.
     inline std::shared_ptr<Primitive::Text> Text(std::string text, std::shared_ptr<Font> font, Color color) {
         return std::make_shared<Primitive::Text>(font, text, color);
     }

@@ -20,6 +20,9 @@ namespace CUI::Filter {
 }
 
 namespace CUI::Factories {
+    /// Gaussian blur filter
+    /// @param sigma The strength of the blur. The higher it is, the blurrier the output will get.
+    /// @param clip If false, the ouput can extend past the input to provide smooth edges. If true, it will be clipped.
     inline std::shared_ptr<Filter::Blur> Blur(float sigma, bool clip = false) {
         return std::make_shared<Filter::Blur>(sigma, clip);
     }

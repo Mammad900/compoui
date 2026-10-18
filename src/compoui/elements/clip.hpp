@@ -2,6 +2,7 @@
 #include <memory>
 
 namespace CUI::Misc {
+    // Prevents children from overflowing out of its bounds
     class Clip : public Element {
     public:
         std::shared_ptr<Element> child;
@@ -22,6 +23,7 @@ namespace CUI::Misc {
 }
 
 namespace CUI::Factories {
+    // Prevents children from overflowing out of its bounds
     inline std::shared_ptr<Misc::Clip> Clip(std::shared_ptr<Element> child) {
         return std::make_shared<Misc::Clip>(child);
     }

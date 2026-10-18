@@ -23,6 +23,7 @@ namespace CUI::Filter {
     };
 }
 namespace CUI::Factories {
+    // Combine multiple filters into one. Filters are applied in order.
     inline std::shared_ptr<Filter::Combine> Filters(std::vector<std::shared_ptr<Filter::Filter>> filters) {
         return std::make_shared<Filter::Combine>(filters);
     }

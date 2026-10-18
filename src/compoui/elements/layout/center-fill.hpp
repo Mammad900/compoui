@@ -71,6 +71,12 @@ namespace CUI::Layout {
 }
 
 namespace CUI::Factories {
+    /** Places two children at the start and end, and fills the rest with the center child.
+     * @param orientation Which axis to place children
+     * @param start The element to place at the left/top
+     * @param center The element that fills up the remaining space
+     * @param end The element to place at the right/bottom
+     */
     inline std::shared_ptr<Layout::CenterFill> CenterFill(
         Orientation orientation,
         std::shared_ptr<Element> start,

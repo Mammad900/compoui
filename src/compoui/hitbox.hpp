@@ -10,13 +10,13 @@ namespace CUI {
       public:
         // Whether this hit-box consumes mouse events and occludes hit-boxes behind.
         // If not, a hit-box behind this will still receive mouse events.
-        // If false, forces clickOnDown true.
+        // If false, forces `clickOnDown` true.
         // Default true.
         bool consumes;
 
         // If true, click event will be generated on mouse down.
         // If false, click event will be generated on mouse up.
-        // Forced false when consumes is false.
+        // Forced false when `consumes` is false.
         bool clickOnDown;
 
         // Called when an event is generated
@@ -60,6 +60,16 @@ namespace CUI {
 
     namespace Factories {
         /// An element that can receive mouse events, doesn't draw anything
+        /// @param onEventCallback A function that receives medium mouse events. Refer to MouseEvent documentation. It receives ALL events, not just click.
+        /// @param consumes 
+        /// Whether this hit-box consumes mouse events and occludes hit-boxes behind it.
+        /// If not, a hit-box behind this will still receive mouse events.
+        /// If false, forces `clickOnDown` true.
+        /// Default true.
+        /// @param clickOnDown 
+        /// If true, click event will be generated on mouse down.
+        /// If false, click event will be generated on mouse up.
+        /// Forced false when `consumes` is false.
         inline std::shared_ptr<HitBoxEl> HitBox(std::function<void(MouseEvent)> onEventCallback, bool consumes = true, bool clickOnDown = false) {
             return std::make_shared<HitBoxEl>(onEventCallback, consumes, clickOnDown);
         }

@@ -7,7 +7,7 @@
 
 namespace CUI::Primitive {
     // Fills the rect with a solid color.
-    // Natural is zero (can be overriden)
+    // Natural size is zero (can be overriden)
     class Fill : public Primitive {
         static unsigned int program;
         static const char* fragmentSource;
@@ -29,6 +29,8 @@ namespace CUI::Primitive {
 }
 
 namespace CUI::Factories {
+    // Fills the rect with a solid color.
+    // Natural size is zero (can be overriden)
     inline std::shared_ptr<CUI::Primitive::Fill> Fill(Color background, Vec2 size={0,0}) {
         return std::make_shared<CUI::Primitive::Fill>(background, size);
     }

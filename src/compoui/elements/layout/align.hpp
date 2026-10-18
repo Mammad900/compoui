@@ -74,9 +74,19 @@ namespace CUI::Layout {
 }
 
 namespace CUI::Factories {
+    /// Positions an element at the start/center/end of itself, at its natural size.
+    /// Its natural size is the same as its child's.
+    /// @param horizontal How the child should be aligned horizontally
+    /// @param vertical How the child should be aligned vertically
+    /// @param child The element to align
     inline std::shared_ptr<Layout::Align> Align(Layout::Align::Mode horizontal, Layout::Align::Mode vertical, std::shared_ptr<Element> child) {
         return std::make_shared<Layout::Align>(child, horizontal, vertical);
     }
+
+    /// Positions an element at the start/center/end of itself, at its natural size.
+    /// Its natural size is the same as its child's.
+    /// @param both How the child should be aligned, in both axes
+    /// @param child The element to align
     inline std::shared_ptr<Layout::Align> Align(Layout::Align::Mode both, std::shared_ptr<Element> child) {
         return std::make_shared<Layout::Align>(child, both, both);
     }

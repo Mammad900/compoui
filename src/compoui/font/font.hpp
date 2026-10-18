@@ -3,7 +3,7 @@
 
 #include "../rect.hpp"
 #include <filesystem>
-#include <glm/glm.hpp>
+#include <glm/ext/vector_int2.hpp>
 #include <unordered_map>
 
 namespace CUI {
@@ -15,10 +15,10 @@ namespace CUI {
         // Not sure what these mean, google them.
         float lineHeight, ascender, descender;
         struct CharInfo {
-            Rect uv; // texture coordinates
+            Rect uv; // texture coordinates in the texture atlas
             glm::ivec2 size;    // bitmap width, height
             glm::ivec2 bearing; // offset from baseline to left/top
-            float advance; // horizontal advance
+            float advance; // horizontal advance (aka width)
         };
 
         // Load a font file supported by Freetype2.

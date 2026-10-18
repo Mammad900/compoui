@@ -7,6 +7,7 @@
 #include <vector>
 
 namespace CUI::Misc {
+    // Applies a filter to its child.
     class ForegroundFilter : public Element {
     public:
         std::shared_ptr<Element> child;
@@ -53,6 +54,12 @@ namespace CUI::Misc {
     };
 }
 namespace CUI::Factories {
+    /// Applies a filter to its child.
+    /// The child is drawn in isolation and then pasted into the main UI.
+    /// Side effect: clips everything inside to its bounds.
+    /// Side effect: Any BackgroundFilter must choose between using only inside this element, or only behind it.
+    /// @param filter The filter to apply
+    /// @param child the element to draw and filter.
     inline std::shared_ptr<Misc::ForegroundFilter> ForegroundFilter(std::shared_ptr<Filter::Filter> filter, std::shared_ptr<Element> child) {
         return std::make_shared<Misc::ForegroundFilter>(child, filter);
     }

@@ -31,12 +31,25 @@ namespace CUI::Primitive {
 }
 
 namespace CUI::Factories {
+    /// Renders a Texture.
+    /// Fills the rect and stretches.
+    /// @param size natural size
+    /// @param color multiply the image colors by this color
     inline std::shared_ptr<CUI::Primitive::Image> Image(std::shared_ptr<Texture> texture, Vec2 size, Color color = Color::white) {
         return std::make_shared<CUI::Primitive::Image>(texture, size, color);
     }
+
+    /// Renders a Texture.
+    /// Natural size is its pixel resolution.
+    /// Fills the rect and stretches.
+    /// @param color multiply the image colors by this color
     inline std::shared_ptr<CUI::Primitive::Image> Image(std::shared_ptr<Texture> texture, Color color) {
         return std::make_shared<CUI::Primitive::Image>(texture, texture->size, color);
     }
+
+    /// Renders a Texture.
+    /// Natural size is its pixel resolution.
+    /// Fills the rect and stretches.
     inline std::shared_ptr<CUI::Primitive::Image> Image(std::shared_ptr<Texture> texture) {
         return std::make_shared<CUI::Primitive::Image>(texture, texture->size, Color::white);
     }

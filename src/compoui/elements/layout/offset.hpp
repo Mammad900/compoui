@@ -24,6 +24,8 @@ namespace CUI::Layout {
 }
 
 namespace CUI::Factories {
+    /// Offsets the position of its child, without affecting the size.
+    /// @param offset The position of the child relative to the parent.
     inline std::shared_ptr<Layout::Offset> Offset(Vec2 offset, std::shared_ptr<Element> child) {
         return std::make_shared<Layout::Offset>(offset, child);
     }

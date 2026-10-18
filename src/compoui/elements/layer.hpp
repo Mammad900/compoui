@@ -27,6 +27,7 @@ namespace CUI::Misc {
 }
 
 namespace CUI::Factories {
+    // Postpones the rendering of its child until after everything else has been rendered.
     inline std::shared_ptr<Misc::Layer> Layer(std::shared_ptr<Element> child) {
         return std::make_shared<Misc::Layer>(child);
     }

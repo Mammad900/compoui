@@ -37,6 +37,9 @@ namespace CUI::Layout {
 
 namespace CUI::Factories {
     using OptionalMode = Layout::Optional::Mode;
+    
+    // Conditionally renders its child.
+    // Natural size is that of its child, unless Mode is 'gone', in which case its zero.
     inline std::shared_ptr<Layout::Optional> Optional(std::shared_ptr<Element> child, OptionalMode mode = OptionalMode::visible) {
         return std::make_shared<Layout::Optional>(child, mode);
     }

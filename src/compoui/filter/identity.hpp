@@ -13,6 +13,7 @@ namespace CUI::Filter {
     };
 }
 namespace CUI::Factories {
+    // Identity filter, output is same as input.
     inline std::shared_ptr<Filter::Identity> IdentityFilter() {
         return std::make_shared<Filter::Identity>();
     }

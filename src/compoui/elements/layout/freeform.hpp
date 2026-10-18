@@ -10,6 +10,7 @@ namespace CUI::Layout {
     class Freeform : public Element {
       public:
         struct Child {
+            // Location and size of the child, relative to the parent
             Rect rect;
             std::shared_ptr<Element> element;
         };
@@ -42,6 +43,8 @@ namespace CUI::Layout {
 }
 
 namespace CUI::Factories {
+    // Positions elements anywhere you want relative to itself.
+    // Does not have natural size.
     inline std::shared_ptr<CUI::Layout::Freeform> Freeform(std::vector<CUI::Layout::Freeform::Child> children) {
         return std::make_shared<CUI::Layout::Freeform>(children);
     }

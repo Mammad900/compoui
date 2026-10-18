@@ -31,6 +31,9 @@ namespace CUI::Layout {
 }
 
 namespace CUI::Factories {
+    /// Positions children in the same rect, on top of each other.
+    /// Natural size is that of one of the children, which must be specified.
+    /// @param layoutChild The index of the element which determines natural size. 0 means first, 1 means second, etc. -1 means last, -2 means second last, etc.
     inline std::shared_ptr<CUI::Layout::ZStack> ZStack(std::vector<std::shared_ptr<Element>> children, int layoutChild) {
         return std::make_shared<CUI::Layout::ZStack>(children, layoutChild);
     }

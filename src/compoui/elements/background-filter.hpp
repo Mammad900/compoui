@@ -51,6 +51,10 @@ namespace CUI::Misc {
     };
 }
 namespace CUI::Factories {
+    /// Applies a filter to what's behind it. Equivalent to CSS `backdrop-filter`.
+    /// May not function correctly if the background is not fully opaque.
+    /// @param filter The filter to apply.
+    /// @param useMain If a descendant of a ForegroundFilter, this uses the contents behind that ForegroundFilter as the source. Otherwise, it uses anything behind this element but still inside the ForegroundFilter.
     inline std::shared_ptr<Misc::BackgroundFilter> BackgroundFilter(std::shared_ptr<Filter::Filter> filter, bool useMain = false) {
         return std::make_shared<Misc::BackgroundFilter>(filter, useMain);
     }
