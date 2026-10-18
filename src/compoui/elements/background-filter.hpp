@@ -11,8 +11,10 @@ namespace CUI::Misc {
     class BackgroundFilter : public Element {
     public:
         std::shared_ptr<Filter::Filter> filter; 
+        bool useMain;
 
-        BackgroundFilter(std::shared_ptr<Filter::Filter> filter) : filter(filter) {}
+        BackgroundFilter(std::shared_ptr<Filter::Filter> filter, bool useMain) 
+          : filter(filter), useMain(useMain) {}
 
         Vec2 naturalSize(Vec2 availableSpace) override {
             return {0,0};
@@ -41,7 +43,7 @@ namespace CUI::Misc {
                 if(isLast) step.grow = 0;
                 
                 ctx->activateFBO(destFbo, !isLast);
-                filter->draw(ctx, rect, step, sourceFbo ? sourceFbo->fbo : parentFbo);
+                filter->draw(ctx, rect, step, sourceFbo ? sourceFbo->fbo : useMain ? ctx->mainFBO : parentFbo);
             }
 
             ctx->activateFBO(parentFbo);
@@ -49,7 +51,7 @@ namespace CUI::Misc {
     };
 }
 namespace CUI::Factories {
-    inline std::shared_ptr<Misc::BackgroundFilter> BackgroundFilter(std::shared_ptr<Filter::Filter> filter) {
-        return std::make_shared<Misc::BackgroundFilter>(filter);
+    inline std::shared_ptr<Misc::BackgroundFilter> BackgroundFilter(std::shared_ptr<Filter::Filter> filter, bool useMain = false) {
+        return std::make_shared<Misc::BackgroundFilter>(filter, useMain);
     }
 }
