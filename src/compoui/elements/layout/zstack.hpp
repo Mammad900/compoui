@@ -11,13 +11,14 @@ namespace CUI::Layout {
       public:
         std::vector<std::shared_ptr<Element>> children;
         // The index of the child that determines natural size
-        uint layoutChild;
+        int layoutChild;
 
-        ZStack(std::vector<std::shared_ptr<Element>> children, uint layoutChild) 
+        ZStack(std::vector<std::shared_ptr<Element>> children, int layoutChild) 
             : children(children), layoutChild(layoutChild) {}
 
         Vec2 naturalSize(Vec2 max) override {
-            return children[layoutChild]->naturalSize(max);
+            int layoutChildNow = layoutChild < 0 ? children.size() + layoutChild : layoutChild;
+            return children[layoutChildNow]->naturalSize(max);
         }
 
         void draw(ContextPtr ctx, Rect rect) override {
@@ -30,7 +31,7 @@ namespace CUI::Layout {
 }
 
 namespace CUI::Factories {
-    inline std::shared_ptr<CUI::Layout::ZStack> ZStack(std::vector<std::shared_ptr<Element>> children, uint layoutChild) {
+    inline std::shared_ptr<CUI::Layout::ZStack> ZStack(std::vector<std::shared_ptr<Element>> children, int layoutChild) {
         return std::make_shared<CUI::Layout::ZStack>(children, layoutChild);
     }
 }
