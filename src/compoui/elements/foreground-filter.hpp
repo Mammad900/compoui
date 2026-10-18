@@ -19,6 +19,7 @@ namespace CUI::Misc {
         }
 
         void draw(ContextPtr ctx, CUI::Rect rect) override {
+            auto parentFbo = ctx->currentFBO;
             auto childrenFbo = ctx->getFBO();
             ctx->activateFBO(childrenFbo->fbo, true);
             child->draw(ctx, rect);
@@ -37,7 +38,7 @@ namespace CUI::Misc {
                     tempFbo = nullptr;
                     tempFbo = ctx->getFBO();
                 }
-                std::shared_ptr<FBO> destFbo = isLast ? ctx->mainFBO : tempFbo->fbo;
+                std::shared_ptr<FBO> destFbo = isLast ? parentFbo : tempFbo->fbo;
 
                 float grow = step.grow;
                 step.grow += growCarry;
@@ -46,6 +47,8 @@ namespace CUI::Misc {
                 ctx->activateFBO(destFbo, !isLast);
                 filter->draw(ctx, rect, step, sourceFbo->fbo);
             }
+
+            ctx->activateFBO(parentFbo);
         }
     };
 }
