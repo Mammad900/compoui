@@ -27,7 +27,7 @@ As my friend calls it:
   - **Image**
   - **Text**
 - **HitBox**: Receive mouse input
-- **Filters**: Apply a filter to an element
+- **Filters**: Apply a filter to the contents or the background of an element
   - **Opacity**
   - **Blur**
 - **Layers**: Draw an element on top of everything else
