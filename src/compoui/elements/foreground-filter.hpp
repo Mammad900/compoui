@@ -10,10 +10,10 @@ namespace CUI::Misc {
     // Applies a filter to its child.
     class ForegroundFilter : public Element {
     public:
-        std::shared_ptr<Element> child;
+        ElementPtr child;
         std::shared_ptr<Filter::Filter> filter; 
 
-        ForegroundFilter(std::shared_ptr<Element> child, std::shared_ptr<Filter::Filter> filter) : child(child), filter(filter) {}
+        ForegroundFilter(ElementPtr child, std::shared_ptr<Filter::Filter> filter) : child(child), filter(filter) {}
 
         Vec2 naturalSize(Vec2 availableSpace) override {
             return child->naturalSize(availableSpace);
@@ -60,7 +60,7 @@ namespace CUI::Factories {
     /// Side effect: Any BackgroundFilter must choose between using only inside this element, or only behind it.
     /// @param filter The filter to apply
     /// @param child the element to draw and filter.
-    inline std::shared_ptr<Misc::ForegroundFilter> ForegroundFilter(std::shared_ptr<Filter::Filter> filter, std::shared_ptr<Element> child) {
+    inline std::shared_ptr<Misc::ForegroundFilter> ForegroundFilter(std::shared_ptr<Filter::Filter> filter, ElementPtr child) {
         return std::make_shared<Misc::ForegroundFilter>(child, filter);
     }
 }

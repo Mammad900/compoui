@@ -12,7 +12,7 @@ namespace CUI::Layout {
         struct Child {
             // Location and size of the child, relative to the parent
             Rect rect;
-            std::shared_ptr<Element> element;
+            ElementPtr element;
         };
 
         Freeform(std::vector<Child> children) : children(children) {}

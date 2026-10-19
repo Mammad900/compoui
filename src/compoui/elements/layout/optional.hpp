@@ -6,7 +6,7 @@ namespace CUI::Layout {
     class Optional : public Element {
     public:
         // The element to possibly render
-        std::shared_ptr<Element> child;
+        ElementPtr child;
 
 
         enum Mode {
@@ -19,7 +19,7 @@ namespace CUI::Layout {
         };
         Mode mode = visible;
 
-        Optional(std::shared_ptr<Element> child, Mode mode = visible)
+        Optional(ElementPtr child, Mode mode = visible)
             : child(child), mode(mode) {}
 
         void draw(ContextPtr ctx, CUI::Rect rect) override {
@@ -40,7 +40,7 @@ namespace CUI::Factories {
     
     // Conditionally renders its child.
     // Natural size is that of its child, unless Mode is 'gone', in which case its zero.
-    inline std::shared_ptr<Layout::Optional> Optional(std::shared_ptr<Element> child, OptionalMode mode = OptionalMode::visible) {
+    inline std::shared_ptr<Layout::Optional> Optional(ElementPtr child, OptionalMode mode = OptionalMode::visible) {
         return std::make_shared<Layout::Optional>(child, mode);
     }
 }

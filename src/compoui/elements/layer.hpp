@@ -5,9 +5,9 @@
 namespace CUI::Misc {
     class Layer : public Element, public std::enable_shared_from_this<Layer> {
     public:
-        std::shared_ptr<Element> child;
+        ElementPtr child;
 
-        Layer(std::shared_ptr<Element> child) : child(child) {}
+        Layer(ElementPtr child) : child(child) {}
 
         Vec2 naturalSize(Vec2 availableSpace) override {
             return child->naturalSize(availableSpace);
@@ -28,7 +28,7 @@ namespace CUI::Misc {
 
 namespace CUI::Factories {
     // Postpones the rendering of its child until after everything else has been rendered.
-    inline std::shared_ptr<Misc::Layer> Layer(std::shared_ptr<Element> child) {
+    inline std::shared_ptr<Misc::Layer> Layer(ElementPtr child) {
         return std::make_shared<Misc::Layer>(child);
     }
 }

@@ -12,9 +12,9 @@ namespace CUI::Layout {
     class Clamp : public Element {
     public:
         Vec2 min, max;
-        std::shared_ptr<Element> child;
+        ElementPtr child;
 
-        Clamp(Vec2 min, Vec2 max, std::shared_ptr<Element> child) 
+        Clamp(Vec2 min, Vec2 max, ElementPtr child) 
             : min(min), max(max), child(child) {}
         
         Vec2 naturalSize(Vec2 availableSpace) override {
@@ -35,25 +35,25 @@ namespace CUI::Layout {
 
 namespace CUI::Factories {
     // Clamps the child's natural size between the given sizes.
-    inline std::shared_ptr<Layout::Clamp> Clamp(Vec2 min, Vec2 max, std::shared_ptr<Element> child) {
+    inline std::shared_ptr<Layout::Clamp> Clamp(Vec2 min, Vec2 max, ElementPtr child) {
         return std::make_shared<Layout::Clamp>(min, max, child);
     }
 
     // Prevents the child's natural size from being bigger than the given size.
     // Shorthand for Clamp({0,0}, max, child)
-    inline std::shared_ptr<Layout::Clamp> Clamp(Vec2 max, std::shared_ptr<Element> child) {
+    inline std::shared_ptr<Layout::Clamp> Clamp(Vec2 max, ElementPtr child) {
         return std::make_shared<Layout::Clamp>(Vec2{0,0}, max, child);
     }
 
     // Prevents the child's natural size from being smaller than the given size.
     // Shorthand for Clamp(min, {∞,∞}, child)
-    inline std::shared_ptr<Layout::Clamp> ClampMin(Vec2 min, std::shared_ptr<Element> child) {
+    inline std::shared_ptr<Layout::Clamp> ClampMin(Vec2 min, ElementPtr child) {
         return std::make_shared<Layout::Clamp>(min, Vec2{INFINITY, INFINITY}, child);
     }
 
     // Fixes the child's natural size to the given size
     // Shorthand for Clamp(size, size, child)
-    inline std::shared_ptr<Layout::Clamp> ClampFixed(Vec2 size, std::shared_ptr<Element> child) {
+    inline std::shared_ptr<Layout::Clamp> ClampFixed(Vec2 size, ElementPtr child) {
         return std::make_shared<Layout::Clamp>(size, size, child);
     }
 }

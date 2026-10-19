@@ -5,9 +5,9 @@ namespace CUI::Misc {
     // Prevents children from overflowing out of its bounds
     class Clip : public Element {
     public:
-        std::shared_ptr<Element> child;
+        ElementPtr child;
 
-        Clip(std::shared_ptr<Element> child) : child(child) {}
+        Clip(ElementPtr child) : child(child) {}
 
         Vec2 naturalSize(Vec2 availableSpace) override {
             return child->naturalSize(availableSpace);
@@ -24,7 +24,7 @@ namespace CUI::Misc {
 
 namespace CUI::Factories {
     // Prevents children from overflowing out of its bounds
-    inline std::shared_ptr<Misc::Clip> Clip(std::shared_ptr<Element> child) {
+    inline std::shared_ptr<Misc::Clip> Clip(ElementPtr child) {
         return std::make_shared<Misc::Clip>(child);
     }
 }

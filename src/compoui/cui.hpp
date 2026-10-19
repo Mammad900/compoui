@@ -17,6 +17,7 @@ namespace CUI {
     namespace Misc {
         class Layer;
     }
+    using ElementPtr = std::shared_ptr<Element>;
 
     enum Orientation {vertical, horizontal};
     
@@ -29,19 +30,24 @@ namespace CUI {
         // The root element. This element is rendered with the rect filling the window.
         std::shared_ptr<Misc::Layer> root;
 
-        // The current clip boundary. Is set while drawing a Clip element and its children.
+        // [advanced] The current clip boundary. Is set while drawing a Clip element and its children.
         std::optional<Rect> clipRect;
 
+        // [advanced] The innermost layer currently being rendered, may be null.
         PendingLayer *currentLayer = nullptr;
 
+        // [advanced] The currently bound framebuffer
         std::shared_ptr<FBO> currentFBO;
+
+        // The framebuffer that contains the main UI.
         std::shared_ptr<FBO> mainFBO;
         
+        // Lease a temporary framebuffer from a pool, creating one if necessary.
         std::shared_ptr<FBOLease> getFBO();
 
-        // OpenGL VAO used to render a quad. Consider readonly.
+        // [advanced] OpenGL VAO used to render a quad. Consider readonly.
         unsigned int vao;
-        // OpenGL VBO used to render a quad. Consider readonly.
+        // [advanced] OpenGL VBO used to render a quad. Consider readonly.
         unsigned int vbo;
 
         // The current mouse position. nullopt if outside the window.
@@ -49,18 +55,25 @@ namespace CUI {
         // The current state of mouse buttons.
         MouseEvent::Buttons mouseButtons;
         // If LMB is pressed on a consuming hit-box, this is set to it, until its released. Otherwise nullptr.
-        std::shared_ptr<Element> capture;
+        ElementPtr capture;
         
         // Create GUI context with given window size and root element.
         Context(uint w, uint h, std::shared_ptr<Misc::Layer> root);
-        Context(uint w, uint h, std::shared_ptr<Element> root);
-        // Resize window
+        Context(uint w, uint h, ElementPtr root);
+
+        // Resize window. Must not be called during draw()
         void resize(unsigned int w, unsigned int h);
-        // Draw the GUI.
+
+        // Draw the GUI to the main framebuffer. Make sure to call display() afterwards or present it yourself.
         void draw();
+
+        // Present the main framebuffer to the window. Alternatively, present it yourself by using `mainFBO`.
         void display();
 
+        // [advanced] Paste the contents of the given framebuffer to the currently bound framebuffer
         void pasteFBO(std::shared_ptr<FBO> &fbo);
+
+        // [advanced] Activate a framebuffer and optionally clear it
         void activateFBO(std::shared_ptr<FBO> &fbo, bool clear = false);
 
         // Send a raw mouse event to be processed
@@ -71,7 +84,7 @@ namespace CUI {
         // Time between this frame and the last, in seconds
         float deltaTime;
 
-        // Sets the current clip boundary. Used by the Clip element
+        // [advanced] Sets the current clip boundary. Used by the Clip element
         void setClip(std::optional<Rect> rect);
     private:
         std::vector<std::shared_ptr<HitBoxEl>> hitBoxes;
@@ -96,7 +109,7 @@ namespace CUI {
     class PendingLayer {
     public:
         Rect rect;
-        std::shared_ptr<Element> root;
+        ElementPtr root;
         std::vector<PendingLayer> children;
 
         void draw(ContextPtr ctx);

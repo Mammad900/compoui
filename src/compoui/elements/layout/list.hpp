@@ -9,11 +9,11 @@ namespace CUI::Layout {
     // Positions elements in a straight vertical/horizontal line
     class List : public Element {
       public:
-        std::vector<std::shared_ptr<Element>> children;
+        std::vector<ElementPtr> children;
         float gap;
         Orientation orientation;
 
-        List(std::vector<std::shared_ptr<Element>> children, float gap = 0, Orientation orientation = vertical) 
+        List(std::vector<ElementPtr> children, float gap = 0, Orientation orientation = vertical) 
             : children(children), gap(gap), orientation(orientation) {}
 
         Vec2 naturalSize(Vec2 max) override {
@@ -70,24 +70,24 @@ namespace CUI::Factories {
     /// Places children in a straight line, with a gap between them.
     /// @param gap The spacing between two adjacent children
     /// @param orientation The axis to place children
-    inline std::shared_ptr<Layout::List> List(float gap, Orientation orientation, std::vector<std::shared_ptr<Element>> children) {
+    inline std::shared_ptr<Layout::List> List(float gap, Orientation orientation, std::vector<ElementPtr> children) {
         return std::make_shared<Layout::List>(children, gap, orientation);
     }
 
     /// Places children in a straight line.
     /// @param orientation The axis to place children
-    inline std::shared_ptr<Layout::List> List(Orientation orientation, std::vector<std::shared_ptr<Element>> children) {
+    inline std::shared_ptr<Layout::List> List(Orientation orientation, std::vector<ElementPtr> children) {
         return std::make_shared<Layout::List>(children, 0, orientation);
     }
 
     /// Places children in a straight vertical line, with a gap between them.
     /// @param gap The spacing between two adjacent children
-    inline std::shared_ptr<Layout::List> List(float gap, std::vector<std::shared_ptr<Element>> children) {
+    inline std::shared_ptr<Layout::List> List(float gap, std::vector<ElementPtr> children) {
         return std::make_shared<Layout::List>(children, gap);
     }
 
     /// Places children in a straight vertical line.
-    inline std::shared_ptr<Layout::List> List(std::vector<std::shared_ptr<Element>> children) {
+    inline std::shared_ptr<Layout::List> List(std::vector<ElementPtr> children) {
         return std::make_shared<Layout::List>(children, 0);
     }
 }

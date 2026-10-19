@@ -8,9 +8,9 @@ namespace CUI::Layout {
     class Offset : public Element {
     public:
         Vec2 offset;
-        std::shared_ptr<Element> child;
+        ElementPtr child;
 
-        Offset(Vec2 offset, std::shared_ptr<Element> child)
+        Offset(Vec2 offset, ElementPtr child)
             : offset(offset), child(child) {}
 
         Vec2 naturalSize(Vec2 availableSpace) override {
@@ -26,7 +26,7 @@ namespace CUI::Layout {
 namespace CUI::Factories {
     /// Offsets the position of its child, without affecting the size.
     /// @param offset The position of the child relative to the parent.
-    inline std::shared_ptr<Layout::Offset> Offset(Vec2 offset, std::shared_ptr<Element> child) {
+    inline std::shared_ptr<Layout::Offset> Offset(Vec2 offset, ElementPtr child) {
         return std::make_shared<Layout::Offset>(offset, child);
     }
 }

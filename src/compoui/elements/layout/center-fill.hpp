@@ -8,10 +8,10 @@ namespace CUI::Layout {
     // Places two children at the start and end, and fills the rest with the center child.
     class CenterFill : public Element {
     public:
-        std::shared_ptr<Element> start, center, end;
+        ElementPtr start, center, end;
         Orientation orientation;
 
-        CenterFill(std::shared_ptr<Element> start, std::shared_ptr<Element> center, std::shared_ptr<Element> end, Orientation orientation)
+        CenterFill(ElementPtr start, ElementPtr center, ElementPtr end, Orientation orientation)
             : start(start), center(center), end(end), orientation(orientation) {}
 
         Vec2 naturalSize(Vec2 availableSpace) override {
@@ -79,9 +79,9 @@ namespace CUI::Factories {
      */
     inline std::shared_ptr<Layout::CenterFill> CenterFill(
         Orientation orientation,
-        std::shared_ptr<Element> start,
-        std::shared_ptr<Element> center,
-        std::shared_ptr<Element> end
+        ElementPtr start,
+        ElementPtr center,
+        ElementPtr end
     ) {
         return std::make_shared<Layout::CenterFill>(start, center, end, orientation);
     }

@@ -11,7 +11,7 @@
 #include <memory>
 #include <optional>
 
-CUI::Context::Context(uint w, uint h, std::shared_ptr<Element> root) 
+CUI::Context::Context(uint w, uint h, ElementPtr root) 
     : Context(w, h, Factories::Layer(root)) {}
 CUI::Context::Context(uint w, uint h, std::shared_ptr<Misc::Layer> root) 
     : windowSize(w, h), root(root), lastFrame(std::chrono::steady_clock::now()) {

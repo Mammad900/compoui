@@ -18,10 +18,10 @@ namespace CUI::Layout {
             // Child fills the parent on this axis, so not natural size.
             fill
         };
-        std::shared_ptr<Element> child;
+        ElementPtr child;
         Mode horizontal, vertical;
 
-        Align(std::shared_ptr<Element> child, Mode horizontal, Mode vertical)
+        Align(ElementPtr child, Mode horizontal, Mode vertical)
             : child(child), horizontal(horizontal), vertical(vertical) {}
 
         Vec2 naturalSize(Vec2 max) override {
@@ -79,7 +79,7 @@ namespace CUI::Factories {
     /// @param horizontal How the child should be aligned horizontally
     /// @param vertical How the child should be aligned vertically
     /// @param child The element to align
-    inline std::shared_ptr<Layout::Align> Align(Layout::Align::Mode horizontal, Layout::Align::Mode vertical, std::shared_ptr<Element> child) {
+    inline std::shared_ptr<Layout::Align> Align(Layout::Align::Mode horizontal, Layout::Align::Mode vertical, ElementPtr child) {
         return std::make_shared<Layout::Align>(child, horizontal, vertical);
     }
 
@@ -87,7 +87,7 @@ namespace CUI::Factories {
     /// Its natural size is the same as its child's.
     /// @param both How the child should be aligned, in both axes
     /// @param child The element to align
-    inline std::shared_ptr<Layout::Align> Align(Layout::Align::Mode both, std::shared_ptr<Element> child) {
+    inline std::shared_ptr<Layout::Align> Align(Layout::Align::Mode both, ElementPtr child) {
         return std::make_shared<Layout::Align>(child, both, both);
     }
     using AlignMode = Layout::Align::Mode;
