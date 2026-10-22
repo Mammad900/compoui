@@ -2,7 +2,7 @@
 #include "../glad/glad.h"
 #include "../util/shader.hpp"
 
-void CUI::Filter::Filter::draw(ContextPtr ctx, CUI::Rect rect, Step &step, std::shared_ptr<FBO> &fbo) {
+void CUI::Filter::Filter::draw(CUI::Rect rect, Step &step, std::shared_ptr<FBO> &fbo) {
     glUseProgram(step.program);
 
     // Uniforms common to all primitives.
@@ -16,7 +16,7 @@ void CUI::Filter::Filter::draw(ContextPtr ctx, CUI::Rect rect, Step &step, std::
     glUniform1i(2, 0);
 
     // Derived class may add its own uniforms here.
-    step.setUniforms(fbo, ctx);
+    step.setUniforms(fbo);
 
     glBindVertexArray(ctx->vao);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);

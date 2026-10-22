@@ -22,9 +22,11 @@ namespace CUI::Layout {
         Optional(ElementPtr child, Mode mode = visible)
             : child(child), mode(mode) {}
 
-        void draw(ContextPtr ctx, CUI::Rect rect) override {
+        void draw(CUI::Rect rect) override {
+            Element::draw(rect);
+
             if (mode == visible && child)
-                child->draw(ctx, rect);
+                child->draw(rect);
         }
 
         // Report natural size of the child unless mode is 'gone'.

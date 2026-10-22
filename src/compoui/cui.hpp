@@ -22,7 +22,7 @@ namespace CUI {
     enum Orientation {vertical, horizontal};
     
     // Contains info about a GUI window.
-    class Context : public std::enable_shared_from_this<Context> {
+    class Context {
     public:
         // Window size in pixels. Do not set, use resize().
         Vec2 windowSize;
@@ -100,7 +100,7 @@ namespace CUI {
     class Element {
     public:
         // Draw this element at the given position and size
-        virtual void draw(ContextPtr ctx, CUI::Rect rect) {};
+        virtual void draw(CUI::Rect rect) {};
 
         // Get the natural size of this element, given the available space. Used by some layout elements.
         virtual Vec2 naturalSize(Vec2 availableSpace) { return {0,0}; };
@@ -112,7 +112,12 @@ namespace CUI {
         ElementPtr root;
         std::vector<PendingLayer> children;
 
-        void draw(ContextPtr ctx);
+        void draw();
     };
+
+    // The currently active CUI context. 
+    // Do not forget to set this when interacting with the context!
+    // Is thread local.
+    extern thread_local Context* ctx;
 }
 

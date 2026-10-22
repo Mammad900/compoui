@@ -2,6 +2,7 @@
 #include "../../cui.hpp"
 #include "../../util/size-fallback.hpp"
 #include "../../rect.hpp"
+#include "value/value.hpp"
 #include <vector>
 
 namespace CUI::Layout {
@@ -11,7 +12,7 @@ namespace CUI::Layout {
       public:
         struct Child {
             // Location and size of the child, relative to the parent
-            Rect rect;
+            Val<Rect> rect;
             ElementPtr element;
         };
 
@@ -19,12 +20,12 @@ namespace CUI::Layout {
         
         std::vector<Child> children;
 
-        void draw(ContextPtr ctx, Rect rect) override {
-            Element::draw(ctx, rect);
+        void draw(Rect rect) override {
+            Element::draw(rect);
 
             for (Child &child : children) {
                 Vec2 naturalSize = child.element->naturalSize({0,0});
-                Rect childRect = sizeFallback(child.rect, naturalSize);
+                Rect childRect = sizeFallback(child.rect.get(), naturalSize);
                 if(childRect.size.x == 0 || childRect.size.y == 0) continue;
 
                 if(childRect.pos.x < 0)
@@ -34,7 +35,7 @@ namespace CUI::Layout {
 
                 childRect.pos += rect.pos;
 
-                child.element->draw(ctx, childRect);
+                child.element->draw(childRect);
                 // if(isDebugTarget())
                 //     ctx->drawRect(childRect, DebugColors::rect);
             }

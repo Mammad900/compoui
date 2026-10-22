@@ -6,7 +6,7 @@ bool CUI::HitBoxEl::contains(Vec2 pos) {
     return lastRect.contains(pos);
 }
 
-bool CUI::HitBoxEl::processEvent(ContextPtr ctx, MouseEvent event) {
+bool CUI::HitBoxEl::processEvent(MouseEvent event) {
     event.hitBox = shared_from_this();
 
     if(event.type == MouseEvent::leave) {
@@ -68,16 +68,16 @@ bool CUI::HitBoxEl::processEvent(ContextPtr ctx, MouseEvent event) {
     return consumes;
 }
 
-void CUI::HitBoxEl::postEvents(ContextPtr ctx) {
+void CUI::HitBoxEl::postEvents() {
     if(!hoverPrevious && hoverNow) {
-        processEvent(ctx, MouseEvent{
+        processEvent(MouseEvent{
             .type= MouseEvent::enter,
             .buttons= ctx->mouseButtons,
             .position= ctx->mousePosition,
         });
     }
     if(hoverPrevious && !hoverNow) {
-        processEvent(ctx, MouseEvent{
+        processEvent(MouseEvent{
             .type= MouseEvent::leave,
             .buttons= ctx->mouseButtons,
             .position= ctx->mousePosition,
@@ -87,13 +87,12 @@ void CUI::HitBoxEl::postEvents(ContextPtr ctx) {
     hoverNow = false;
 }
 
-void CUI::HitBoxEl::draw(ContextPtr ctx, Rect rect) {
-    Element::draw(ctx, rect);
-    this->ctx = ctx;
+void CUI::HitBoxEl::draw(Rect rect) {
+    Element::draw(rect);
     lastRect = rect;
     ctx->hitBoxes.push_back(shared_from_this());
 }
 
 bool CUI::HitBoxEl::isPressed() {
-    return ctx.lock()->capture.get() == this;
+    return ctx->capture.get() == this;
 }

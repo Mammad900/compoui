@@ -36,7 +36,7 @@ namespace CUI {
             if(onEventCallback) onEventCallback(event);
         }
 
-        void draw(ContextPtr ctx, Rect rect) override;
+        void draw(Rect rect) override;
 
         // Whether the LMB has been pressed inside this hit-box and still down.
         // Doesn't become false if mouse leaves while still down. If you want this, && it with isHovered()
@@ -45,15 +45,14 @@ namespace CUI {
         // Whether the mouse is inside this hit-box right now.
         bool isHovered() { return hoverPrevious; }
 
-        std::weak_ptr<Context> ctx;
     private:
         Rect lastRect;
         bool hoverNow = false, hoverPrevious = false;
 
         // Engine sends unprocessed events here. Return true to consume the event. Do NOT consume "up".
-        virtual bool processEvent(ContextPtr ctx, MouseEvent event); 
+        virtual bool processEvent(MouseEvent event); 
         // Called by the engine once all mouse events are processed
-        virtual void postEvents(ContextPtr ctx);
+        virtual void postEvents();
 
         friend class Context;
     };

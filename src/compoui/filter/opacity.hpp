@@ -1,5 +1,6 @@
 #pragma once
 #include "filter.hpp"
+#include "value/value.hpp"
 #include <memory>
 
 namespace CUI::Filter {
@@ -8,8 +9,8 @@ namespace CUI::Filter {
         static const char* fragmentSource;
 
     public:
-        float opacity;
-        Opacity(float opacity);
+        Val<float> opacity;
+        Opacity(Val<float> opacity);
 
         std::vector<Step> getSteps() override;
     };
@@ -17,7 +18,7 @@ namespace CUI::Filter {
 
 namespace CUI::Factories {
     // Opacity filter. Reduces the opacity of the input.
-    inline std::shared_ptr<Filter::Opacity> Opacity(float opacity) {
+    inline std::shared_ptr<Filter::Opacity> Opacity(Val<float> opacity) {
         return std::make_shared<Filter::Opacity>(opacity);
     }
 }

@@ -104,7 +104,7 @@ std::vector<CUI::Filter::Step> CUI::Filter::Blur::getSteps() {
     return {
         Step{ // Horizontal pass
             program,
-            [this, radius](std::shared_ptr<FBO> &fbo, ContextPtr ctx) {
+            [this, radius](std::shared_ptr<FBO> &fbo) {
                 glActiveTexture(GL_TEXTURE1);
                 glBindTexture(GL_TEXTURE_1D, weightsTex);
                 glUniform1i(3, 1);
@@ -116,7 +116,7 @@ std::vector<CUI::Filter::Step> CUI::Filter::Blur::getSteps() {
         },
         Step{ // Horizontal pass
             program,
-            [this, radius](std::shared_ptr<FBO> &fbo, ContextPtr ctx) {
+            [this, radius](std::shared_ptr<FBO> &fbo) {
                 glActiveTexture(GL_TEXTURE1);
                 glBindTexture(GL_TEXTURE_1D, weightsTex);
                 glUniform1i(3, 1);

@@ -19,11 +19,11 @@ namespace CUI::Misc {
             return child->naturalSize(availableSpace);
         }
 
-        void draw(ContextPtr ctx, CUI::Rect rect) override {
+        void draw(CUI::Rect rect) override {
             auto parentFbo = ctx->currentFBO;
             auto childrenFbo = ctx->getFBO();
             ctx->activateFBO(childrenFbo->fbo, true);
-            child->draw(ctx, rect);
+            child->draw(rect);
 
             std::vector<Filter::Step> steps = filter->getSteps();
 
@@ -46,7 +46,7 @@ namespace CUI::Misc {
                 if(step.growCarry) growCarry += grow;
                 
                 ctx->activateFBO(destFbo, !isLast);
-                filter->draw(ctx, rect, step, sourceFbo->fbo);
+                filter->draw(rect, step, sourceFbo->fbo);
             }
 
             ctx->activateFBO(parentFbo);

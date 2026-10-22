@@ -14,7 +14,7 @@ namespace CUI {
         unsigned int fbo, tex;
         bool busy = false;
 
-        FBO(ContextPtr ctx);
+        FBO();
 
         ~FBO();
         

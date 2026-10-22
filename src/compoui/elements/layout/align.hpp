@@ -24,12 +24,12 @@ namespace CUI::Layout {
         Align(ElementPtr child, Mode horizontal, Mode vertical)
             : child(child), horizontal(horizontal), vertical(vertical) {}
 
-        Vec2 naturalSize(Vec2 max) override {
-            return child->naturalSize(max);
+        Vec2 naturalSize(Vec2 availableSpace) override {
+            return child->naturalSize(availableSpace);
         }
 
-        void draw(ContextPtr ctx, Rect rect) override {
-            Element::draw(ctx, rect);
+        void draw(Rect rect) override {
+            Element::draw(rect);
 
             Rect childRect = rect;
             childRect.size = child->naturalSize(rect.size);
@@ -68,7 +68,7 @@ namespace CUI::Layout {
 
             childRect.pos += rect.pos;
 
-            child->draw(ctx, childRect);
+            child->draw(childRect);
         }
     };
 }

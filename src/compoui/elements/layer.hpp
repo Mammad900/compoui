@@ -13,13 +13,13 @@ namespace CUI::Misc {
             return child->naturalSize(availableSpace);
         }
 
-        void draw(ContextPtr ctx, CUI::Rect rect) override {
+        void draw(CUI::Rect rect) override {
             PendingLayer l{
                 .rect = rect,
                 .root = child,
             };
             if(ctx->root.get() == this)
-                l.draw(ctx);
+                l.draw();
             else
                 ctx->currentLayer->children.push_back(l);
         }

@@ -13,10 +13,10 @@ namespace CUI::Misc {
             return child->naturalSize(availableSpace);
         }
 
-        void draw(ContextPtr ctx, CUI::Rect rect) override {
+        void draw(CUI::Rect rect) override {
             std::optional<Rect> previousClip = ctx->clipRect;
             ctx->setClip(rect);
-            child->draw(ctx, rect);
+            child->draw(rect);
             ctx->setClip(previousClip);
         }
     };

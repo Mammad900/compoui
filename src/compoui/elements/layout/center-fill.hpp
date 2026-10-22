@@ -31,20 +31,22 @@ namespace CUI::Layout {
             return {w, h};
         }
 
-        void draw(ContextPtr ctx, CUI::Rect rect) override {
+        void draw(CUI::Rect rect) override {
+            Element::draw(rect);
+
             if(orientation == vertical) {
                 float startH = start ? start->naturalSize(rect.size).y : 0;
                 float endH = end ? end->naturalSize(rect.size).y : 0;
 
-                if(start) start->draw(ctx, {
+                if(start) start->draw({
                     rect.pos, 
                     {rect.size.x, startH}
                 });
-                if(center) center->draw(ctx, {
+                if(center) center->draw({
                     rect.pos + Vec2{0, startH}, 
                     rect.size - Vec2{0, startH + endH}
                 });
-                if(end) end->draw(ctx, {
+                if(end) end->draw({
                     rect.pos + Vec2{0, rect.size.y - endH}, 
                     {rect.size.x, endH}
                 });
@@ -53,15 +55,15 @@ namespace CUI::Layout {
                 float startW = start ? start->naturalSize(rect.size).x : 0;
                 float endW = end ? end->naturalSize(rect.size).x : 0;
 
-                if(start) start->draw(ctx, {
+                if(start) start->draw({
                     rect.pos, 
                     {startW, rect.size.y}
                 });
-                if(center) center->draw(ctx, {
+                if(center) center->draw({
                     rect.pos + Vec2{startW, 0}, 
                     rect.size - Vec2{startW + endW, 0}
                 });
-                if(end) end->draw(ctx, {
+                if(end) end->draw({
                     rect.pos + Vec2{rect.size.x - endW, 0}, 
                     {endW, rect.size.y}
                 });

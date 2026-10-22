@@ -19,14 +19,14 @@ const char* CUI::Filter::Opacity::fragmentSource = R"(
     }
 )";
 
-CUI::Filter::Opacity::Opacity(float opacity) : Filter(program, fragmentSource), opacity(opacity) { }
+CUI::Filter::Opacity::Opacity(Val<float> opacity) : Filter(program, fragmentSource), opacity(opacity) { }
 
 std::vector<CUI::Filter::Step> CUI::Filter::Opacity::getSteps() {
     return {
         Step{
             program,
-            [this](std::shared_ptr<FBO> &fbo, ContextPtr ctx) {
-                glUniform1f(3, opacity);
+            [this](std::shared_ptr<FBO> &fbo) {
+                glUniform1f(3, opacity.get());
             },
             0,
         }

@@ -31,6 +31,10 @@ As my friend calls it:
   - **Opacity**
   - **Blur**
 - **Layers**: Draw an element on top of everything else
+- **Value**: Basic property system. Set a property to a:
+  - Fixed value
+  - Reference to a variable
+  - Interpolation
 
 ## Architecture
 

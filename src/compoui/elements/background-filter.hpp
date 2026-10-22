@@ -20,7 +20,7 @@ namespace CUI::Misc {
             return {0,0};
         }
 
-        void draw(ContextPtr ctx, CUI::Rect rect) override {
+        void draw(CUI::Rect rect) override {
             auto parentFbo = ctx->currentFBO;
 
             std::vector<Filter::Step> steps = filter->getSteps();
@@ -43,7 +43,7 @@ namespace CUI::Misc {
                 if(isLast) step.grow = 0;
                 
                 ctx->activateFBO(destFbo, !isLast);
-                filter->draw(ctx, rect, step, sourceFbo ? sourceFbo->fbo : useMain ? ctx->mainFBO : parentFbo);
+                filter->draw(rect, step, sourceFbo ? sourceFbo->fbo : useMain ? ctx->mainFBO : parentFbo);
             }
 
             ctx->activateFBO(parentFbo);

@@ -10,7 +10,7 @@ CUI::Primitive::Primitive::Primitive(unsigned int &program, const char *fragment
     glUseProgram(program);
 }
 
-void CUI::Primitive::Primitive::draw(ContextPtr ctx, CUI::Rect rect) {
+void CUI::Primitive::Primitive::draw(CUI::Rect rect) {
     glUseProgram(program);
 
     // Uniforms common to all primitives.
@@ -19,7 +19,7 @@ void CUI::Primitive::Primitive::draw(ContextPtr ctx, CUI::Rect rect) {
     glUniform2fv(1, 1, &ctx->windowSize.x);
 
     // Derived class may add its own uniforms here.
-    setDerivedUniforms(ctx, rect);
+    setDerivedUniforms(rect);
 
     glBindVertexArray(ctx->vao);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);

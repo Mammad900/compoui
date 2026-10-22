@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../cui.hpp"
+#include "value/value.hpp"
 #include <cmath>
 #include <memory>
 #include <vector>
@@ -10,17 +11,19 @@ namespace CUI::Layout {
     class List : public Element {
       public:
         std::vector<ElementPtr> children;
-        float gap;
+        Val<float> gap;
         Orientation orientation;
 
         List(std::vector<ElementPtr> children, float gap = 0, Orientation orientation = vertical) 
             : children(children), gap(gap), orientation(orientation) {}
 
-        Vec2 naturalSize(Vec2 max) override {
+        Vec2 naturalSize(Vec2 availableSpace) override {
+            float gap = this->gap.get();
+
             if(orientation == vertical) { 
                 float h = 0, w = 0;
                 for (auto &child : children) {
-                    Vec2 size = child->naturalSize({max.x, INFINITY});
+                    Vec2 size = child->naturalSize({availableSpace.x, INFINITY});
                     h += size.y + gap;
                     w = std::max(w, size.x);
                 }
@@ -28,7 +31,7 @@ namespace CUI::Layout {
             } else {
                 float h = 0, w = 0;
                 for (auto &child : children) {
-                    Vec2 size = child->naturalSize({INFINITY, max.y});
+                    Vec2 size = child->naturalSize({INFINITY, availableSpace.y});
                     w += size.x + gap;
                     h = std::max(h, size.y);
                 }
@@ -36,8 +39,9 @@ namespace CUI::Layout {
             }
         }
 
-        void draw(ContextPtr ctx, Rect rect) override {
-            Element::draw(ctx, rect);
+        void draw(Rect rect) override {
+            Element::draw(rect);
+            float gap = this->gap.get();
 
             if(orientation == vertical) {
                 float y = 0;
@@ -47,7 +51,7 @@ namespace CUI::Layout {
                         Vec2{0, y} + rect.pos, 
                         {rect.size.x, height}
                     };
-                    child->draw(ctx, childRect);
+                    child->draw(childRect);
                     y += height + gap;
                 }
             } else {
@@ -58,7 +62,7 @@ namespace CUI::Layout {
                         Vec2{ x, 0 } + rect.pos,
                         {width, rect.size.y}
                     };
-                    child->draw(ctx, childRect);
+                    child->draw(childRect);
                     x += width + gap;
                 }
             }

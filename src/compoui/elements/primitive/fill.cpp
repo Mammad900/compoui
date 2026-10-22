@@ -14,9 +14,10 @@ const char* CUI::Primitive::Fill::fragmentSource = R"(
     }
 )";
 
-CUI::Primitive::Fill::Fill(Color background, Vec2 size) 
+CUI::Primitive::Fill::Fill(Val<Color> background, Val<Vec2> size) 
     : Primitive(program, fragmentSource), background(background), size(size) { }
 
-void CUI::Primitive::Fill::setDerivedUniforms(ContextPtr, CUI::Rect) {
-    glUniform4fv(2, 1, &background.r);
+void CUI::Primitive::Fill::setDerivedUniforms(CUI::Rect) {
+    Color back = background.get();
+    glUniform4fv(2, 1, &back.r);
 }

@@ -16,7 +16,7 @@ const char* CUI::Primitive::Text::fragSource = R"(
 
 int CUI::Primitive::Text::program = 0;
 
-CUI::Primitive::Text::Text(std::shared_ptr<Font> font, std::string text, Color color) :
+CUI::Primitive::Text::Text(Val<std::shared_ptr<Font>> font, Val<std::string> text, Val<Color> color) :
             font(font), text(text), color(color)
 {
     if(program == 0)
@@ -57,7 +57,10 @@ CUI::Primitive::Text::~Text() {
     if (ebo) glDeleteBuffers(1, &ebo);
 }
 
-void CUI::Primitive::Text::draw(ContextPtr ctx, Rect rect) {
+void CUI::Primitive::Text::draw(Rect rect) {
+    Color color = this->color.get();
+    auto font = this->font.get();
+
     glUseProgram(program);
 
     // Uniforms
@@ -81,6 +84,8 @@ void CUI::Primitive::Text::draw(ContextPtr ctx, Rect rect) {
 }
 
 void CUI::Primitive::Text::updateGeometry() {
+    auto font = this->font.get();
+
     struct Vertex{Vec2 pos, uv;};
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
@@ -90,7 +95,7 @@ void CUI::Primitive::Text::updateGeometry() {
     float baseline = (font->lineHeight - (font->ascender - font->descender)) / 2.0f + font->ascender;
     Vec2 currentPos{0,baseline};
 
-    for (char c : text) {
+    for (char c : text.get()) {
         Font::CharInfo glyph = font->get(c);
         Rect uv = glyph.uv;
         Rect pos = {

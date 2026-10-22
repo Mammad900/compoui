@@ -11,9 +11,13 @@
 #include <memory>
 #include <optional>
 
-CUI::Context::Context(uint w, uint h, ElementPtr root) 
+using namespace CUI;
+
+thread_local Context* CUI::ctx = nullptr;
+
+Context::Context(uint w, uint h, ElementPtr root) 
     : Context(w, h, Factories::Layer(root)) {}
-CUI::Context::Context(uint w, uint h, std::shared_ptr<Misc::Layer> root) 
+Context::Context(uint w, uint h, std::shared_ptr<Misc::Layer> root) 
     : windowSize(w, h), root(root), lastFrame(std::chrono::steady_clock::now()) {
 
     // A unit quad. x/y/w/h are applied through the model matrix.
@@ -40,22 +44,22 @@ CUI::Context::Context(uint w, uint h, std::shared_ptr<Misc::Layer> root)
     );
 }
 
-void CUI::Context::resize(uint w, uint h) {
+void Context::resize(uint w, uint h) {
     windowSize = Vec2(w, h);
     glViewport(0, 0, static_cast<GLsizei>(w), static_cast<GLsizei>(h));
 
     fboPool.clear();
-    mainFBO = std::make_shared<FBO>(shared_from_this());
+    mainFBO = std::make_shared<FBO>();
 }
 
-void CUI::Context::draw() {    
+void Context::draw() {    
     auto now = std::chrono::steady_clock::now();
     std::chrono::duration<float> elapsed = now - lastFrame;
     deltaTime = elapsed.count();
     lastFrame = now;
 
     if(!mainFBO) {
-        mainFBO = std::make_shared<FBO>(shared_from_this());
+        mainFBO = std::make_shared<FBO>();
     }
     
     activateFBO(mainFBO, true);
@@ -65,15 +69,15 @@ void CUI::Context::draw() {
     );
     glViewport(0, 0, (int)windowSize.x, (int)windowSize.y);
 
-    root->draw(shared_from_this(), {{0,0}, windowSize});
+    root->draw({{0,0}, windowSize});
 }
 
-void CUI::Context::display() {
+void Context::display() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     pasteFBO(mainFBO);
 }
 
-void CUI::Context::mouseEvent(MouseEvent event) {
+void Context::mouseEvent(MouseEvent event) {
     switch (event.type) {
         case MouseEvent::Type::move: {
             if(!event.position) return;
@@ -153,23 +157,21 @@ void CUI::Context::mouseEvent(MouseEvent event) {
     event.buttons = mouseButtons;
     event.position = mousePosition;
 
-    std::shared_ptr<Context> shared = shared_from_this();
     for (unsigned i = hitBoxes.size(); i-- > 0; ) {
         auto &hitBox = hitBoxes[i];
-        if(hitBox->processEvent(shared, event)) return;
+        if(hitBox->processEvent(event)) return;
     }
 }
 
-void CUI::Context::postEvents() {
+void Context::postEvents() {
     mouseEvent(MouseEvent{
         .type= MouseEvent::hover,
         .buttons= mouseButtons,
         .position= mousePosition,
     });
 
-    std::shared_ptr<Context> shared = shared_from_this();
     for (auto &hitBox : hitBoxes)
-        hitBox->postEvents(shared);
+        hitBox->postEvents();
 
     for (auto &event : pendingEvents) {
         event.hitBox->onEvent(event);
@@ -179,7 +181,7 @@ void CUI::Context::postEvents() {
     pendingEvents.clear();
 }
 
-void CUI::Context::setClip(std::optional<Rect> rect) {
+void Context::setClip(std::optional<Rect> rect) {
     clipRect = rect;
     if(rect) {
         glEnable(GL_SCISSOR_TEST);
@@ -193,14 +195,14 @@ void CUI::Context::setClip(std::optional<Rect> rect) {
     }
 }
 
-void CUI::Context::pasteFBO(std::shared_ptr<FBO> &src) {
+void Context::pasteFBO(std::shared_ptr<FBO> &src) {
     static std::shared_ptr<Texture> texture;
     if(!texture) texture = std::make_shared<Texture>(Vec2{0,0}, 0);
     static std::shared_ptr<Primitive::Image> img;
     if(!img) img = Factories::Image(texture);
 
     texture->id = src->tex;
-    img->draw(shared_from_this(), {{0,windowSize.y}, windowSize * Vec2{1, -1}});
+    img->draw({{0,windowSize.y}, windowSize * Vec2{1, -1}});
 
     glBlendFuncSeparate(
         GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, // RGB
@@ -208,7 +210,7 @@ void CUI::Context::pasteFBO(std::shared_ptr<FBO> &src) {
     );
 }
 
-void CUI::Context::activateFBO(std::shared_ptr<FBO> &fbo, bool clear) {
+void Context::activateFBO(std::shared_ptr<FBO> &fbo, bool clear) {
     glBindFramebuffer(GL_FRAMEBUFFER, fbo->fbo);
     currentFBO = fbo;
 
@@ -218,26 +220,26 @@ void CUI::Context::activateFBO(std::shared_ptr<FBO> &fbo, bool clear) {
     }
 }
 
-void CUI::PendingLayer::draw(ContextPtr ctx) {
+void PendingLayer::draw() {
     PendingLayer *parentLayer = ctx->currentLayer;
     ctx->currentLayer = this;
 
-    root->draw(ctx, rect);
+    root->draw(rect);
 
     for (auto &&child : children) {
-        child.draw(ctx);
+        child.draw();
     }
 
     ctx->currentLayer = parentLayer;
 }
 
-std::shared_ptr<CUI::FBOLease> CUI::Context::getFBO() {
+std::shared_ptr<FBOLease> Context::getFBO() {
     for (auto &&fbo : fboPool) {
         if(!fbo->busy) return fbo->lease();
     }
 
     // No FBO found
-    std::shared_ptr<FBO> newFbo = std::make_shared<FBO>(shared_from_this());
+    std::shared_ptr<FBO> newFbo = std::make_shared<FBO>();
     fboPool.push_back(newFbo);
     return newFbo->lease();
 }

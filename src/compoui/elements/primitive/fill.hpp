@@ -3,6 +3,7 @@
 #include "../../cui.hpp"
 #include "../../color.hpp"
 #include "primitive.hpp"
+#include "value/value.hpp"
 #include <memory>
 
 namespace CUI::Primitive {
@@ -13,25 +14,26 @@ namespace CUI::Primitive {
         static const char* fragmentSource;
 
     public:
-        Fill(Color background, Vec2 size = {0,0});
+        Fill(Val<Color> background, Val<Vec2> size = Vec2{0,0});
 
         Vec2 naturalSize(Vec2 availableSpace) override {
-            return size;
+            return size.get();
         }
 
-        void setDerivedUniforms(ContextPtr, CUI::Rect) override;
+        void setDerivedUniforms(CUI::Rect) override;
     
         // Color to fill
-        Color background;
+        Val<Color> background;
+        
         // Natural size, defaults to 0
-        Vec2 size;
+        Val<Vec2> size;
     };
 }
 
 namespace CUI::Factories {
     // Fills the rect with a solid color.
     // Natural size is zero (can be overriden)
-    inline std::shared_ptr<CUI::Primitive::Fill> Fill(Color background, Vec2 size={0,0}) {
+    inline std::shared_ptr<CUI::Primitive::Fill> Fill(Val<Color> background, Val<Vec2> size = Vec2{0,0}) {
         return std::make_shared<CUI::Primitive::Fill>(background, size);
     }
 }

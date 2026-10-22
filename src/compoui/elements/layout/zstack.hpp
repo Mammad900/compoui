@@ -16,16 +16,16 @@ namespace CUI::Layout {
         ZStack(std::vector<ElementPtr> children, int layoutChild) 
             : children(children), layoutChild(layoutChild) {}
 
-        Vec2 naturalSize(Vec2 max) override {
+        Vec2 naturalSize(Vec2 availableSpace) override {
             int layoutChildNow = layoutChild < 0 ? children.size() + layoutChild : layoutChild;
-            return children[layoutChildNow]->naturalSize(max);
+            return children[layoutChildNow]->naturalSize(availableSpace);
         }
 
-        void draw(ContextPtr ctx, Rect rect) override {
-            Element::draw(ctx, rect);
+        void draw(Rect rect) override {
+            Element::draw(rect);
 
             for (auto &&child : children)
-                child->draw(ctx, rect);
+                child->draw(rect);
         }
     };
 }

@@ -2,7 +2,7 @@
 #include "glad/glad.h"
 #include <memory>
 
-CUI::FBO::FBO(ContextPtr ctx) {
+CUI::FBO::FBO() {
     glGenTextures(1, &tex);
     glBindTexture(GL_TEXTURE_2D, tex);
     glTexImage2D(

@@ -3,6 +3,7 @@
 #include "../../cui.hpp"
 #include "../../font/font.hpp"
 #include "../../color.hpp"
+#include "value/value.hpp"
 #include <memory>
 #include <string>
 
@@ -13,16 +14,16 @@ namespace CUI::Primitive {
     class Text : public Element {
     public:
         // The font face
-        std::shared_ptr<Font> font;
+        Val<std::shared_ptr<Font>> font;
         // Text to render
-        std::string text;
+        Val<std::string> text;
         // Text color
-        Color color;
+        Val<Color> color;
 
-        Text(std::shared_ptr<Font> font, std::string text, Color color);
+        Text(Val<std::shared_ptr<Font>> font, Val<std::string> text, Val<Color> color);
         ~Text();
         
-        void draw(ContextPtr ctx, Rect rect) override;
+        void draw(Rect rect) override;
 
         void setText(const std::string &text) {
             this->text = text;
@@ -46,7 +47,10 @@ namespace CUI::Factories {
     /// Renders single line text.
     /// Natural size is the text bounds.
     /// Does not fill its rect and aligns to top left unless at natural size.
-    inline std::shared_ptr<Primitive::Text> Text(std::string text, std::shared_ptr<Font> font, Color color) {
+    inline std::shared_ptr<Primitive::Text> Text(Val<std::string> text, Val<std::shared_ptr<Font>> font, Val<Color> color) {
+        return std::make_shared<Primitive::Text>(font, text, color);
+    }
+    inline std::shared_ptr<Primitive::Text> Text(std::string text, Val<std::shared_ptr<Font>> font, Val<Color> color) {
         return std::make_shared<Primitive::Text>(font, text, color);
     }
 }

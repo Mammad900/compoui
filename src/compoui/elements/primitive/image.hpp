@@ -4,6 +4,7 @@
 #include "../../color.hpp"
 #include "../../texture.hpp"
 #include "primitive.hpp"
+#include "value/value.hpp"
 #include <memory>
 
 namespace CUI::Primitive {
@@ -15,18 +16,18 @@ namespace CUI::Primitive {
         static const char* fragmentSource;
 
     public:
-        Image(std::shared_ptr<Texture> texture, Vec2 size = {0,0}, Color color = Color::white);
+        Image(std::shared_ptr<Texture> texture, Val<Vec2> size = Vec2{0,0}, Val<Color> color = Color::white);
 
         Vec2 naturalSize(Vec2 availableSpace) override;
 
-        void setDerivedUniforms(ContextPtr, CUI::Rect) override;
+        void setDerivedUniforms(CUI::Rect) override;
 
         // The texture to draw
-        std::shared_ptr<Texture> texture;
+        Val<std::shared_ptr<Texture>> texture;
         // Natural size
-        Vec2 size;
+        Val<Vec2> size;
         // Multiply image colors by this color
-        Color color;
+        Val<Color> color;
     };
 }
 
@@ -35,7 +36,7 @@ namespace CUI::Factories {
     /// Fills the rect and stretches.
     /// @param size natural size
     /// @param color multiply the image colors by this color
-    inline std::shared_ptr<CUI::Primitive::Image> Image(std::shared_ptr<Texture> texture, Vec2 size, Color color = Color::white) {
+    inline std::shared_ptr<CUI::Primitive::Image> Image(std::shared_ptr<Texture> texture, Val<Vec2> size, Val<Color> color = Color::white) {
         return std::make_shared<CUI::Primitive::Image>(texture, size, color);
     }
 
@@ -43,7 +44,7 @@ namespace CUI::Factories {
     /// Natural size is its pixel resolution.
     /// Fills the rect and stretches.
     /// @param color multiply the image colors by this color
-    inline std::shared_ptr<CUI::Primitive::Image> Image(std::shared_ptr<Texture> texture, Color color) {
+    inline std::shared_ptr<CUI::Primitive::Image> Image(std::shared_ptr<Texture> texture, Val<Color> color) {
         return std::make_shared<CUI::Primitive::Image>(texture, texture->size, color);
     }
 

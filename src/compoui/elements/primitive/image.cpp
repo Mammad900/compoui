@@ -1,4 +1,5 @@
 #include "image.hpp"
+#include "cui.hpp"
 #include "util/shader.hpp"
 #include <algorithm>
 #include <memory>
@@ -23,10 +24,13 @@ const char* CUI::Primitive::Image::fragmentSource = R"(
     }
 )";
 
-CUI::Primitive::Image::Image(std::shared_ptr<Texture> texture, Vec2 size, Color color)
+CUI::Primitive::Image::Image(std::shared_ptr<Texture> texture, Val<Vec2> size, Val<Color> color)
     : Primitive(program, fragmentSource), texture(texture), size(size), color(color) { }
 
-void CUI::Primitive::Image::setDerivedUniforms(ContextPtr, CUI::Rect rect) {
+void CUI::Primitive::Image::setDerivedUniforms(CUI::Rect rect) {
+    auto texture = this->texture.get();
+    Color color = this->color.get();
+
     // bind the texture unit 0 and set the sampler to that unit
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture->id);
@@ -37,6 +41,8 @@ void CUI::Primitive::Image::setDerivedUniforms(ContextPtr, CUI::Rect rect) {
 }
 
 CUI::Vec2 CUI::Primitive::Image::naturalSize(Vec2 availableSpace) {
+    Vec2 size = this->size.get();
+
     if(availableSpace.x >= size.x && availableSpace.y >= size.y)
         return size;
     float ratioX = availableSpace.x / size.x;
