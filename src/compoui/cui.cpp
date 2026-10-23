@@ -62,7 +62,11 @@ void Context::draw() {
         mainFBO = std::make_shared<FBO>();
     }
     
-    activateFBO(mainFBO, true);
+    activateFBO(mainFBO);
+
+    glClearColor(background.r, background.g, background.b, background.a);
+    glClear(GL_COLOR_BUFFER_BIT);
+
     glBlendFuncSeparate(
         GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, // RGB
         GL_ONE, GL_ONE_MINUS_SRC_ALPHA    // alpha

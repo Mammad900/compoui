@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include "color.hpp"
 #include "rect.hpp"
 #include "vec2.hpp"
 #include "mouse-event.hpp"
@@ -56,6 +57,8 @@ namespace CUI {
         MouseEvent::Buttons mouseButtons;
         // If LMB is pressed on a consuming hit-box, this is set to it, until its released. Otherwise nullptr.
         ElementPtr capture;
+
+        Color background = Color::transparent;
         
         // Create GUI context with given window size and root element.
         Context(uint w, uint h, std::shared_ptr<Misc::Layer> root);
