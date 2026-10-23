@@ -8,7 +8,7 @@
 namespace CUI::Filter {
     struct Step {
         unsigned int program;
-        std::function<void(std::shared_ptr<FBO> &fbo)> setUniforms;
+        std::function<void(std::shared_ptr<FBO> &fbo, bool isBackground)> setUniforms;
         float grow;
         bool growCarry;
     };
@@ -19,6 +19,6 @@ namespace CUI::Filter {
         Filter() {}
     public:
         virtual std::vector<Step> getSteps() = 0;
-        static void draw(Rect rect, Step& step, std::shared_ptr<FBO> &fbo);
+        static void draw(Rect rect, Step& step, std::shared_ptr<FBO> &fbo, bool isBackground);
     };
 }

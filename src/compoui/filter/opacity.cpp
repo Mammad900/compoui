@@ -25,7 +25,7 @@ std::vector<CUI::Filter::Step> CUI::Filter::Opacity::getSteps() {
     return {
         Step{
             program,
-            [this](std::shared_ptr<FBO> &fbo) {
+            [this](std::shared_ptr<FBO> &fbo, bool isBackground) {
                 glUniform1f(3, opacity.get());
             },
             0,

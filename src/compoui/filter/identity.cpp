@@ -22,7 +22,7 @@ std::vector<CUI::Filter::Step> CUI::Filter::Identity::getSteps() {
     return {
         Step{
             program,
-            [](std::shared_ptr<FBO> &fbo) {},
+            [](std::shared_ptr<FBO> &fbo, bool isBackground) {},
             0,
         }
     };

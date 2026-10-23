@@ -43,7 +43,7 @@ namespace CUI::Misc {
                 if(isLast) step.grow = 0;
                 
                 ctx->activateFBO(destFbo, !isLast);
-                filter->draw(rect, step, sourceFbo ? sourceFbo->fbo : useMain ? ctx->mainFBO : parentFbo);
+                filter->draw(rect, step, sourceFbo ? sourceFbo->fbo : useMain ? ctx->mainFBO : parentFbo, true);
             }
 
             ctx->activateFBO(parentFbo);

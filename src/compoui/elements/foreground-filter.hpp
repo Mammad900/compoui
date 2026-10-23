@@ -46,7 +46,7 @@ namespace CUI::Misc {
                 if(step.growCarry) growCarry += grow;
                 
                 ctx->activateFBO(destFbo, !isLast);
-                filter->draw(rect, step, sourceFbo->fbo);
+                filter->draw(rect, step, sourceFbo->fbo, false);
             }
 
             ctx->activateFBO(parentFbo);

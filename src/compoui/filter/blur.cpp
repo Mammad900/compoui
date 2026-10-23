@@ -13,7 +13,8 @@ const char* CUI::Filter::Blur::fragmentSource = R"(
     layout(location = 2) uniform sampler2D tImageTex;
     layout(location = 3) uniform sampler1D tWeightsTex;
     layout(location = 4) uniform int uRadius;
-    layout(location = 5) uniform vec2 stepUV; // (1, 0) or (0, 1)
+    layout(location = 5) uniform vec2 uStepUV; // (1, 0) or (0, 1)
+    layout(location = 6) uniform bool uIsBackground;
 
     // in vec2 vGlobalPixel;
     // in vec2 vLocalPixel;
@@ -32,14 +33,14 @@ const char* CUI::Filter::Blur::fragmentSource = R"(
         for (int i = 1; i <= uRadius; ++i) {
 
             float weight = texelFetch(tWeightsTex, i, 0).r;
-            vec2 offset = stepUV * float(i);
+            vec2 offset = uStepUV * float(i);
 
             result += (
                 texture(tImageTex, uv + offset) +
                 texture(tImageTex, uv - offset)
             ) * weight;
         }
-
+        if(uIsBackground) result /= result.a;
         outColor = result;
     }
 )";
@@ -104,19 +105,20 @@ std::vector<CUI::Filter::Step> CUI::Filter::Blur::getSteps() {
     return {
         Step{ // Horizontal pass
             program,
-            [this, radius](std::shared_ptr<FBO> &fbo) {
+            [this, radius](std::shared_ptr<FBO> &fbo, bool isBackground) {
                 glActiveTexture(GL_TEXTURE1);
                 glBindTexture(GL_TEXTURE_1D, weightsTex);
                 glUniform1i(3, 1);
 
                 glUniform1i(4, radius);
                 glUniform2f(5, 1.f / ctx->windowSize.x, 0.f );
+                glUniform1i(6, isBackground);
             },
             (float)radius,
         },
         Step{ // Horizontal pass
             program,
-            [this, radius](std::shared_ptr<FBO> &fbo) {
+            [this, radius](std::shared_ptr<FBO> &fbo, bool isBackground) {
                 glActiveTexture(GL_TEXTURE1);
                 glBindTexture(GL_TEXTURE_1D, weightsTex);
                 glUniform1i(3, 1);
