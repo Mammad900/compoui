@@ -85,7 +85,7 @@ namespace CUI {
             return x == b.x && y == b.y;
         }
 
-        Vec2 operator-() {
+        Vec2 operator-() const {
             return {-x, -y};
         }
 
