@@ -264,7 +264,7 @@ namespace {
     }
 } // namespace
 
-CUI::Font::Font(std::filesystem::path path, unsigned int size) : size(size) {
+CUI::Font::Font(const unsigned char* fontData, size_t fontDataSize, unsigned int size) : size(size) {
     FT_Library ft = nullptr;
 
     if (FT_Init_FreeType(&ft)) {
@@ -273,13 +273,10 @@ CUI::Font::Font(std::filesystem::path path, unsigned int size) : size(size) {
 
     FT_Face face = nullptr;
 
-    // Keep the string alive for the duration of FT_New_Face().
-    const std::string pathString = path.string();
-
-    if (FT_New_Face(ft, pathString.c_str(), 0, &face)) {
+    if (FT_New_Memory_Face(ft, fontData, fontDataSize, 0, &face)) {
         FT_Done_FreeType(ft);
         throw std::runtime_error(
-            "Failed to load font: " + pathString);
+            "Failed to load font");
     }
     
     if (FT_Set_Pixel_Sizes(face, 0, size)) {

@@ -2,6 +2,7 @@
 #pragma once
 
 #include "../rect.hpp"
+#include <cstddef>
 #include <filesystem>
 #include <glm/ext/vector_int2.hpp>
 #include <unordered_map>
@@ -22,7 +23,7 @@ namespace CUI {
         };
 
         // Load a font file supported by Freetype2.
-        explicit Font(std::filesystem::path fontPath, unsigned int size);
+        explicit Font(const unsigned char* fontData, size_t fontDataSize, unsigned int size);
         ~Font();
 
         // Get information about a glyph.
