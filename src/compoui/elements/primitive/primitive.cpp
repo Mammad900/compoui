@@ -1,13 +1,22 @@
 #include "primitive.hpp"
 #include "../../util/shader.hpp"
+#include <functional>
+#include <string>
 
 CUI::Primitive::Primitive::Primitive(unsigned int &program, const char *fragmentSource) : program(program) {
     if (program == 0) {
         // The vertex shader is shared across all primitives.
-        program = Util::createShaderProgram(Util::genericVertexShader,
-                                            fragmentSource);
+        program = Util::createShaderProgram(Util::genericVertexShader, fragmentSource);
     }
     glUseProgram(program);
+}
+
+CUI::Primitive::Primitive::Primitive(unsigned int &program, std::function<std::string()> fragmentSource) : program(program) {
+    if (program == 0) {
+        // The vertex shader is shared across all primitives.
+        std::string src = fragmentSource();
+        program = Util::createShaderProgram(Util::genericVertexShader, src.c_str());
+    }
 }
 
 void CUI::Primitive::Primitive::draw(CUI::Rect rect) {

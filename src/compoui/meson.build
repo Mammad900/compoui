@@ -9,6 +9,7 @@ lib_compoui = static_library(
     'util/shader.cpp',
     'font/font.cpp',
     'elements/primitive/primitive.cpp',
+    'elements/primitive/shape.cpp',
     'elements/primitive/fill.cpp',
     'elements/primitive/image.cpp',
     'elements/primitive/text.cpp',

@@ -1,12 +1,14 @@
 #pragma once
 
 #include "../../cui.hpp"
+#include <functional>
 
 namespace CUI::Primitive {
     // The base class providing most functionality needed to draw quad based elements
     class Primitive : public Element {
     public:
         Primitive(unsigned int &program, const char *fragmentSource);
+        Primitive(unsigned int &program, std::function<std::string()>);
         void draw(Rect rect);
 
     protected:
