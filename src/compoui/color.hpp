@@ -43,6 +43,20 @@ namespace CUI {
             a *= right;
             return *this;
         }
+        constexpr Color &operator/=(const Color &right) {
+            r /= right.r;
+            g /= right.g;
+            b /= right.b;
+            a /= right.a;
+            return *this;
+        }
+        constexpr Color &operator/=(const float &right) {
+            r /= right;
+            g /= right;
+            b /= right;
+            a /= right;
+            return *this;
+        }
         Color operator*(const Color &other) const {
             return {r * other.r, g * other.g, b * other.b, a * other.a};
         }
@@ -65,6 +79,10 @@ namespace CUI {
             return (r == other.r && g == other.g && b == other.b && a == other.a);
         }
         // operator float() const { return a; }
+
+        Color premultiply() const {
+            return {r*a, g*a, b*a, a};
+        }
 
         static const Color black, white, red, green, blue, yellow, magenta, cyan, transparent;
     };

@@ -23,6 +23,7 @@ const char* CUI::Primitive::Border::fragmentSource = R"(
         outColor = mix(uBorder, uBackground, t);
         t = clamp(0.5 - d, 0.0, 1.0);
         outColor = mix(vec4(0.0, 0.0, 0.0, 0.0), outColor, t);
+        outColor.rgb /= outColor.a;
         // outColor = vec4(d/-10.0, 0.0, 0.0, 1.0);
     }
 )";
@@ -37,8 +38,8 @@ CUI::Primitive::Border::Border(
     : ShapePrimitive(shape, fragmentSource), background(background), border(border), width(width), size(size) { }
 
 void CUI::Primitive::Border::setDerivedUniforms(CUI::Rect rect) {
-    Color back = background.get();
-    Color bord = border.get();
+    Color back = background.get().premultiply();
+    Color bord = border.get().premultiply();
     glUniform4fv(2, 1, &back.r);
     glUniform4fv(3, 1, &bord.r);
     glUniform1f(4, width.get());
