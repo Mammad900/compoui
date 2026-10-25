@@ -9,6 +9,7 @@ const char* CUI::Primitive::Border::fragmentSource = R"(
     layout(location = 2) uniform vec4 uBackground;
     layout(location = 3) uniform vec4 uBorder;
     layout(location = 4) uniform float uWidth;
+    layout(location = 5) uniform float uShrink;
 
     in vec2 vLocalUV;
     in vec2 vLocalPixel;
@@ -29,7 +30,7 @@ const char* CUI::Primitive::Border::fragmentSource = R"(
 )";
 
 CUI::Primitive::Border::Border(
-    Val<Color> background, 
+    Val<Color> background,
     Val<Color> border, 
     Val<float> width,
     std::shared_ptr<Shape::Shape> shape,
