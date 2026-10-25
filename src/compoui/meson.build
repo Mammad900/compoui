@@ -19,6 +19,7 @@ lib_compoui = static_library(
     'filter/opacity.cpp',
     'filter/blur.cpp',
     'shape/rectangle.cpp',
+    'shape/roundedrect.cpp',
   ],
   dependencies: [
     dependency('gl'), 
