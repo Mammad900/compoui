@@ -13,6 +13,7 @@ lib_compoui = static_library(
     'elements/primitive/fill.cpp',
     'elements/primitive/image.cpp',
     'elements/primitive/text.cpp',
+    'elements/primitive/border.cpp',
     'filter/filter.cpp',
     'filter/identity.cpp',
     'filter/opacity.cpp',

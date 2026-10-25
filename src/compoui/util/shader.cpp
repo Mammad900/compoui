@@ -17,8 +17,9 @@ const char* CUI::Util::genericVertexShader = R"(
 
     void main() {
         vLocalUV = aPos;
-        vGlobalPixel = round(uRect.xy + aPos * uRect.zw + 0.001);
-        vLocalPixel = vGlobalPixel - uRect.xy;
+        vGlobalPixel = uRect.xy + aPos * uRect.zw;
+        vLocalPixel = round(vGlobalPixel - uRect.xy + 0.001);
+        vGlobalPixel = round(vGlobalPixel + 0.001);
         vGlobalUV = vGlobalPixel / uViewportSize;
         vec2 pos_normalized = vGlobalUV * vec2(2.0, -2.0) + vec2(-1.0, 1.0);
         gl_Position = vec4(pos_normalized, 0.0, 1.0);
