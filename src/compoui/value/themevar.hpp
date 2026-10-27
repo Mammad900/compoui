@@ -1,3 +1,5 @@
+#pragma once
+
 #include "value.hpp"
 #include <type_traits>
 
