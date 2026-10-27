@@ -29,3 +29,8 @@ lib_compoui = static_library(
   ],
   link_args: ['-lglad', '-ldl']
 )
+compoui = declare_dependency(
+  # sources: lib_compoui,
+  link_with: lib_compoui,          # makes it a static lib dependency
+  include_directories: [include_directories('..')],   # expose ../compoui
+)
