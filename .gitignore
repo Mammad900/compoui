@@ -1,6 +1,7 @@
 .cache/
 subprojects/*
 !subprojects/.wraplock
-!subprojects/*.wrap
-src/app/
+!subprojects/freetype2.wrap
+src/*
+!src/compoui
 .vscode
