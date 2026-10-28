@@ -56,7 +56,7 @@ namespace CUI {
         // The current state of mouse buttons.
         MouseEvent::Buttons mouseButtons;
         // If LMB is pressed on a consuming hit-box, this is set to it, until its released. Otherwise nullptr.
-        ElementPtr capture;
+        std::weak_ptr<HitBoxEl> capture;
 
         Color background = Color::transparent;
         

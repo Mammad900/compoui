@@ -21,8 +21,8 @@ bool CUI::HitBoxEl::processEvent(MouseEvent event) {
             event.relativePosition = *event.position - lastRect.pos;
         ctx->pendingEvents.push_back(event);
 
-        if(ctx->capture.get() == this && event.button == MouseEvent::Button::left) {
-            ctx->capture = nullptr;
+        if(ctx->capture.lock().get() == this && event.button == MouseEvent::Button::left) {
+            ctx->capture.reset();
             if(!contains(*event.position) || clickOnDown) return false;
             event.type = MouseEvent::click;
             ctx->pendingEvents.push_back(event);
@@ -94,5 +94,5 @@ void CUI::HitBoxEl::draw(Rect rect) {
 }
 
 bool CUI::HitBoxEl::isPressed() {
-    return ctx->capture.get() == this;
+    return ctx->capture.lock().get() == this;
 }
