@@ -24,8 +24,10 @@ As my friend calls it:
   - **Clamp**: Limit the natural size of the child
 - **Primitives**
   - **Fill**: Draw a background color
+  - **Border**: Draw a border (and optionally a background) based on a shape
   - **Image**
   - **Text**
+  - **Shadow**: Drop shadow based on a shape
 - **HitBox**: Receive mouse input
 - **Filters**: Apply a filter to the contents or the background of an element
   - **Opacity**
