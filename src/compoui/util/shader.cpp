@@ -1,4 +1,5 @@
 #include "shader.hpp"
+#include <stdexcept>
 
 const char* CUI::Util::genericVertexShader = R"(
     #version 460 core
@@ -33,14 +34,43 @@ GLuint CUI::Util::createShaderProgram(const char* vertexSource, const char* frag
     glShaderSource(vertexShader, 1, &vertexSource, nullptr);
     glCompileShader(vertexShader);
 
+#ifndef NDEBUG
+    GLint status;
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &status);
+    if (status != GL_TRUE) {
+        char buffer[512];
+        glGetShaderInfoLog(vertexShader, 512, nullptr, buffer);
+        throw std::runtime_error(std::string("Vertex shader compilation failed: ") + buffer);
+    }
+#endif
+    
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentSource, nullptr);
     glCompileShader(fragmentShader);
+
+#ifndef NDEBUG
+    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &status);
+    if (status != GL_TRUE) {
+        char buffer[512];
+        glGetShaderInfoLog(fragmentShader, 512, nullptr, buffer);
+        throw std::runtime_error(std::string("Fragment shader compilation failed: ") + buffer);
+    }
+#endif
 
     GLuint program = glCreateProgram();
     glAttachShader(program, vertexShader);
     glAttachShader(program, fragmentShader);
     glLinkProgram(program);
+
+#ifndef NDEBUG
+    glGetProgramiv(program, GL_LINK_STATUS, &status);
+    if (status != GL_TRUE) {
+        char buffer[512];
+        glGetProgramInfoLog(program, 512, nullptr, buffer);
+        throw std::runtime_error(std::string("Shader program linking failed: ") + buffer);
+    }
+#endif
+
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
