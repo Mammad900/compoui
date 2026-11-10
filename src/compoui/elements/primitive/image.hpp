@@ -4,7 +4,7 @@
 #include "../../color.hpp"
 #include "../../texture.hpp"
 #include "primitive.hpp"
-#include "value/value.hpp"
+#include "../../value/value.hpp"
 #include <memory>
 
 namespace CUI::Primitive {
