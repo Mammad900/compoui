@@ -207,6 +207,7 @@ void Context::pasteFBO(std::shared_ptr<FBO> &src) {
 
     texture->id = src->tex;
     img->draw({{0,windowSize.y}, windowSize * Vec2{1, -1}});
+    texture->id = 0; // avoid image deletion
 
     glBlendFuncSeparate(
         GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, // RGB
