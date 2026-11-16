@@ -1,6 +1,6 @@
 #include "texture.hpp"
 #include "color.hpp"
-#include <glad/glad.h>          // or your GL loader header
+#include "glad/glad.h"          // or your GL loader header
 
 CUI::Texture::Texture(const Vec2& sz, const uint8_t* buf, bool mono)
         : id(0), monochrome(mono), size(sz) {
