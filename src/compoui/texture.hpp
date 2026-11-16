@@ -29,6 +29,13 @@ public:
 
     Texture(const Vec2& size, unsigned int id) : id(id), monochrome(false), size(size) {}
 
+    Texture(const Texture&)            = delete;
+    Texture& operator=(const Texture&) = delete;
+
+    // Allow moving so a texture can be transferred safely
+    Texture(Texture&& other) noexcept;
+    Texture& operator=(Texture&& other) noexcept;
+
     ~Texture();
 };
 

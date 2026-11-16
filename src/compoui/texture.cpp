@@ -36,3 +36,27 @@ CUI::Texture::Texture(const Vec2& sz, const uint8_t* buf, bool mono)
 CUI::Texture::~Texture() {
     if (id) glDeleteTextures(1, &id);
 }
+
+CUI::Texture::Texture(Texture&& other) noexcept
+    : id(other.id), monochrome(other.monochrome), size(std::move(other.size))
+{
+    // Leave the source in a valid but empty state
+    other.id = 0;
+}
+
+CUI::Texture& CUI::Texture::operator=(Texture&& other) noexcept
+{
+    if (this != &other)
+    {
+        // Release any existing texture first
+        if (id) glDeleteTextures(1, &id);
+
+        id          = other.id;
+        monochrome  = other.monochrome;
+        size        = std::move(other.size);
+
+        // Leave the source in a valid but empty state
+        other.id = 0;
+    }
+    return *this;
+}
